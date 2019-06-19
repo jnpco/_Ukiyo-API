@@ -1,16 +1,19 @@
 const express = require('express');
 const app = express();
 const morgan = require('morgan');
+const mongoose = require('mongoose');
 
-const postRoute = require('./routes/post');
-const threadRoute = require('./routes/thread');
+//ROUTES
+const postsRoute = require('./routes/posts');
+const threadsRoute = require('./routes/threads');
 const usersRoute = require('./routes/users');
 const errorRoute = require('./routes/error');
 
-app.use(morgan('dev'));
+mongoose.connect("mongodb://localhost/ukiyo", { useNewUrlParser: true });
 
-app.use('/post', postRoute);
-app.use('/thread', threadRoute);
+app.use(morgan('dev'));
+app.use('/post', postsRoute);
+app.use('/thread', threadsRoute);
 app.use('/users', usersRoute);
 app.use(errorRoute);
 
