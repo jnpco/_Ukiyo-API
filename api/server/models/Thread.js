@@ -1,18 +1,21 @@
 const mongoose = require('mongoose');
 
+const COLLECTION_NAME = "Thread";
+
 const threadsSchema = mongoose.Schema({
     _id: {
         type: mongoose.Schema.Types.ObjectId,
         required: true
     },
-    userAccountId: {
+    user: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
-        ref: 'Users'
+        ref: 'User'
     },
     dateCreated: {
         type: Date,
-        required: true
+        required: true,
+        default: Date.now()
     },
     subject: {
         type: String,
@@ -22,4 +25,4 @@ const threadsSchema = mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model('Threads', threadsSchema);
+module.exports = mongoose.model(COLLECTION_NAME, threadsSchema);

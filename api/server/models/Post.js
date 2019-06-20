@@ -1,19 +1,21 @@
 const mongoose = require('mongoose');
 
+const COLLECTION_NAME = "Post";
+
 const postsSchema = mongoose.Schema({
     _id: {
         type: mongoose.Schema.Types.ObjectId,
         required: true
     },
-    threadId: {
+    thread: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
-        ref: 'Threads'
+        ref: 'Thread'
     },
-    userAccountId: {
+    user: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
-        ref: 'Users'
+        ref: 'User'
     },
     content: {
         type: String,
@@ -23,8 +25,14 @@ const postsSchema = mongoose.Schema({
     },
     dateCreated: {
         type: Date,
-        required: true
+        required: true,
+        default: Date.now()
+    },
+    archived: {
+        type: Boolean,
+        required: true,
+        default: false
     }
 });
 
-module.exports = mongoose.model('Posts', postsSchema);
+module.exports = mongoose.model(COLLECTION_NAME, postsSchema);
