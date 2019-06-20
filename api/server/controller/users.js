@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+// MODEL IMPORT
 const { USER_MODEL } = require('../models/User');
 
 const getUser = (req, res) => {
@@ -12,16 +13,35 @@ const getUser = (req, res) => {
             })
             :
             res.status(404).json({
-                message: "User not found",
+                message: "User not found.",
                 err: err
             })
     })
 };
 
+const getAllUsers = (req, res) => {
+    USER_MODEL.find({})
+        .then((users) => {
+            res.status(200).json({
+                success: true,
+                data: users
+            });
+        }).catch((err) => {
+            res.status(404).json({
+                message: "No registered user.",
+                err: err
+            });
+        });
+};
+
 const registerUser = (req, res) => {
-    // Validation both client and server
+    // -> Add Validation for both client and server
     const { username, password } = req.body;
-    const user = new USER_MODEL({ _id: new mongoose.Types.ObjectId(), username, password });
+    const user = new USER_MODEL({
+        _id: new mongoose.Types.ObjectId(),
+        username,
+        password
+    });
 
     user.save()
         .then((newUser) => {
@@ -45,6 +65,7 @@ const deleteUser = (req, res) => {
 
 module.exports = {
     getUser,
+    getAllUsers,
     registerUser,
     deleteUser
 }

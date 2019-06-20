@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 mongoose.pluralize(null);
-
 const mongooseUniqueValidator = require('mongoose-unique-validator');
 
+// COLLECTION NAMES
 const USER_LABEL = "user";
 
 const userSchema = mongoose.Schema({
