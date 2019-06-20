@@ -16,7 +16,7 @@ const errorRoute = require('./routes/error');
 
 app.use('/post', postsRoute);
 app.use('/thread', threadsRoute);
-app.use('/users', usersRoute);
+app.use('/user', usersRoute);
 app.use(errorRoute);
 
 module.exports = app;

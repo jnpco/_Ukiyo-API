@@ -1,21 +1,25 @@
 const mongoose = require('mongoose');
+mongoose.pluralize(null);
 
-const COLLECTION_NAME = "Post";
+const { USER_LABEL } = require('../models/User');
+const { THREAD_LABEL } = require('../models/Thread');
+
+const POST_LABEL = "post";
 
 const postSchema = mongoose.Schema({
     _id: {
         type: mongoose.Schema.Types.ObjectId,
         required: true
     },
-    thread: {
+    [THREAD_LABEL]: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
-        ref: 'Thread'
+        ref: THREAD_LABEL
     },
-    user: {
+    [USER_LABEL]: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
-        ref: 'User'
+        ref: USER_LABEL
     },
     content: {
         type: String,
@@ -36,6 +40,6 @@ const postSchema = mongoose.Schema({
 });
 
 module.exports = {
-    MODEL: mongoose.model(COLLECTION_NAME, postSchema),
-    COLLECTION_NAME
+    POST_MODEL: mongoose.model(POST_LABEL, postSchema),
+    POST_LABEL
 }

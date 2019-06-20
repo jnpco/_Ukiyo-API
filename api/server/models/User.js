@@ -1,7 +1,9 @@
 const mongoose = require('mongoose');
+mongoose.pluralize(null);
+
 const mongooseUniqueValidator = require('mongoose-unique-validator');
 
-const COLLECTION_NAME = "User";
+const USER_LABEL = "user";
 
 const userSchema = mongoose.Schema({
     _id: {
@@ -58,6 +60,6 @@ const userSchema = mongoose.Schema({
 userSchema.plugin(mongooseUniqueValidator);
 
 module.exports = {
-    MODEL: mongoose.model(COLLECTION_NAME, userSchema),
-    COLLECTION_NAME
+    USER_MODEL: mongoose.model(USER_LABEL, userSchema),
+    USER_LABEL
 };
