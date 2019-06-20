@@ -1,9 +1,9 @@
-const Post = require('../models/Post');
+const { MODEL, COLLECTION_NAME } = require('../models/Post');
 const mongoose = require('mongoose');
 
 const getPost = (req, res) => {
     const postId = req.params.postId;
-    Post.findById(postId).then((user) => {
+    MODEL.findById(postId).then((user) => {
         res.status(200).json({
             success: true,
             data: user
@@ -17,7 +17,7 @@ const getPost = (req, res) => {
 };
 
 const getAllPosts = (req, res) => {
-    Post.find({}).populate('user').then((posts) => {
+    MODEL.find({}).populate(COLLECTION_NAME).then((posts) => {
         res.status(200).json({
             success: true,
             data: posts
@@ -32,7 +32,7 @@ const getAllPosts = (req, res) => {
 
 const createPost = (req, res) => {
     const { threadId, userId, content, dateCreated } = req.body;
-    const post = new Post({ _id: new mongoose.Types.ObjectId(), threadId, userId, content, dateCreated });
+    const post = new MODEL({ _id: new mongoose.Types.ObjectId(), threadId, userId, content, dateCreated });
 
     post.save()
         .then((post) => {

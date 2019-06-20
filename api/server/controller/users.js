@@ -1,9 +1,9 @@
-const User = require('../models/User');
+const { MODEL, COLLECTION_NAME } = require('../models/User');
 const mongoose = require('mongoose');
 
 const getUser = (req, res) => {
     const userId = req.params.userId;
-    User.findById(userId, (err, user) => {
+    MODEL.findById(userId, (err, user) => {
         user ?
             res.status(200).json({
                 success: true,
@@ -20,7 +20,7 @@ const getUser = (req, res) => {
 const registerUser = (req, res) => {
     // Validation both client and server
     const { username, password } = req.body;
-    const user = new User({ _id: new mongoose.Types.ObjectId(), username, password });
+    const user = new MODEL({ _id: new mongoose.Types.ObjectId(), username, password });
 
     user.save()
         .then((newUser) => {

@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const COLLECTION_NAME = "Post";
 
-const postsSchema = mongoose.Schema({
+const postSchema = mongoose.Schema({
     _id: {
         type: mongoose.Schema.Types.ObjectId,
         required: true
@@ -35,4 +35,7 @@ const postsSchema = mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model(COLLECTION_NAME, postsSchema);
+module.exports = {
+    MODEL: mongoose.model(COLLECTION_NAME, postSchema),
+    COLLECTION_NAME
+}

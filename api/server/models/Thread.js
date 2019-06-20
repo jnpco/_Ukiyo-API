@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const COLLECTION_NAME = "Thread";
 
-const threadsSchema = mongoose.Schema({
+const threadSchema = mongoose.Schema({
     _id: {
         type: mongoose.Schema.Types.ObjectId,
         required: true
@@ -25,4 +25,7 @@ const threadsSchema = mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model(COLLECTION_NAME, threadsSchema);
+module.exports = {
+    MODEL: mongoose.model(COLLECTION_NAME, threadSchema),
+    COLLECTION_NAME
+};
