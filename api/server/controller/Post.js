@@ -10,11 +10,17 @@ const { THREAD_LABEL } = require('../models/Thread');
 const getPost = (req, res) => {
     const postId = req.params.postId;
     POST_MODEL.findById(postId)
-        .then((user) => {
-            res.status(200).json({
-                success: true,
-                data: user
-            });
+        .then((post) => {
+            if (post.archived) {
+                res.status(404).json({
+                    message: "Post not found.",
+                });
+            } else {
+                res.status(200).json({
+                    success: true,
+                    data: post
+                });
+            }
         }).catch((err) => {
             res.status(404).json({
                 message: "Post not found.",

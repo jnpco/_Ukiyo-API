@@ -7,13 +7,19 @@ const { USER_LABEL } = require('../models/User');
 
 // SHOW ONLY UNARCHIVED THREAD
 const getThread = (req, res) => {
-    const threadId = req.params.postId;
+    const threadId = req.params.threadId;
     THREAD_MODEL.findById(threadId)
         .then((thread) => {
-            res.status(200).json({
-                success: true,
-                data: thread
-            });
+            if (thread.archived) {
+                res.status(404).json({
+                    message: "Thread not found.",
+                });
+            } else {
+                res.status(200).json({
+                    success: true,
+                    data: thread
+                });
+            }
         }).catch((err) => {
             res.status(404).json({
                 message: "Thread not found.",
