@@ -59,7 +59,6 @@ const registerUser = (req, res) => {
 
 const deleteUser = (req, res) => {
     const userId = req.params.userId;
-
     POST_MODEL.deleteOne({ _id: userId })
         .then((result) => {
             res.status(202).json({

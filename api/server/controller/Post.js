@@ -23,11 +23,9 @@ const getPost = (req, res) => {
         });
 };
 
-// SHOW ONLY UNARCHIVED POSTS
-// FETCH FROM THREAD ID
 const getAllPosts = (req, res) => {
     const threadId = req.params.threadId;
-    POST_MODEL.find({ [THREAD_LABEL]: threadId })
+    POST_MODEL.find({ [THREAD_LABEL]: threadId, archived: false })
         .populate(USER_LABEL)
         .then((posts) => {
             res.status(200).json({
@@ -65,9 +63,25 @@ const createPost = (req, res) => {
         });
 };
 
-const deletePost = (req, res) => {
+const archivePost = (req, res) => {
     const postId = req.params.postId;
 
+    POST_MODEL.updateOne({ _id: postId }, { $set: { archived: true, dateDeleted: Date.now() } })
+        .then((result) => {
+            res.status(202).json({
+                success: true,
+                data: result
+            });
+        }).catch((err) => {
+            res.status(500).json({
+                message: "Could not delete thread.",
+                err: err
+            });
+        });
+};
+
+const deletePost = (req, res) => {
+    const postId = req.params.postId;
     POST_MODEL.deleteOne({ _id: postId })
         .then((result) => {
             res.status(202).json({
@@ -76,18 +90,16 @@ const deletePost = (req, res) => {
             });
         }).catch((err) => {
             res.status(500).json({
-                message: "Could not delete post.",
+                message: "Post cannot be permanently deleted.",
                 err: err
             });
         });
-
-    // ARCHIVE INSTEAD OF DELETE
-    // ADD IN FIELD DELETED DATE ON ARCHIVE
 };
 
 module.exports = {
     getPost,
     getAllPosts,
+    archivePost,
     createPost,
     deletePost
 };

@@ -32,7 +32,9 @@ const threadSchema = mongoose.Schema({
         required: true,
         default: false
     },
-    // ADD IN FIELD DELETED DATE ON ARCHIVE
+    dateDeleted: {
+        type: Date,
+    }
 });
 
 module.exports = {

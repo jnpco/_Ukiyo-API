@@ -37,8 +37,10 @@ const postSchema = mongoose.Schema({
         type: Boolean,
         required: true,
         default: false
+    },
+    dateDeleted: {
+        type: Date,
     }
-    // ADD IN FIELD DELETED DATE ON ARCHIVE
 });
 
 module.exports = {

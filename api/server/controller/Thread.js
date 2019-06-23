@@ -22,9 +22,8 @@ const getThread = (req, res) => {
         });
 };
 
-// SHOW ONLY UNARCHIVED THREADS
 const getAllThreads = (req, res) => {
-    THREAD_MODEL.find({})
+    THREAD_MODEL.find({ archived: false })
         .populate(USER_LABEL)
         .then((threads) => {
             res.status(200).json({
@@ -61,10 +60,10 @@ const createThread = (req, res) => {
         });
 };
 
-const deleteThread = (req, res) => {
+const archiveThread = (req, res) => {
     const threadId = req.params.threadId;
 
-    THREAD_MODEL.deleteOne({ _id: threadId })
+    THREAD_MODEL.updateOne({ _id: threadId }, { $set: { "archived": true, "dateDeleted": Date.now() } })
         .then((result) => {
             res.status(202).json({
                 success: true,
@@ -76,10 +75,22 @@ const deleteThread = (req, res) => {
                 err: err
             });
         });
+};
 
-    // ARCHIVE INSTEAD OF DELETE
-    // CALL DELETE FN (ARCHIVE) POSTS IN THREAD
-    // ADD IN FIELD DELETED DATE ON ARCHIVE
+const deleteThread = (req, res) => {
+    const threadId = req.params.threadId;
+    THREAD_MODEL.deleteOne({ _id: threadId })
+        .then((result) => {
+            res.status(202).json({
+                success: true,
+                data: result
+            });
+        }).catch((err) => {
+            res.status(500).json({
+                message: "Thread could not be permanently deleted.",
+                err: err
+            });
+        });
 }
 
 
@@ -87,5 +98,6 @@ module.exports = {
     getThread,
     getAllThreads,
     createThread,
+    archiveThread,
     deleteThread
 };
