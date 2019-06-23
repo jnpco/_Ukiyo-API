@@ -6,6 +6,7 @@ const { POST_MODEL } = require('../models/Post');
 const { USER_LABEL } = require('../models/User');
 const { THREAD_LABEL } = require('../models/Thread');
 
+// SHOW ONLY UNARCHIVED POST
 const getPost = (req, res) => {
     const postId = req.params.postId;
     POST_MODEL.findById(postId)
@@ -22,10 +23,12 @@ const getPost = (req, res) => {
         });
 };
 
+// SHOW ONLY UNARCHIVED POSTS
+// FETCH FROM THREAD ID
 const getAllPosts = (req, res) => {
-    POST_MODEL.find({})
+    const threadId = req.params.threadId;
+    POST_MODEL.find({ [THREAD_LABEL]: threadId })
         .populate(USER_LABEL)
-        .populate(THREAD_LABEL)
         .then((posts) => {
             res.status(200).json({
                 success: true,
@@ -62,8 +65,29 @@ const createPost = (req, res) => {
         });
 };
 
+const deletePost = (req, res) => {
+    const postId = req.params.postId;
+
+    POST_MODEL.deleteOne({ _id: postId })
+        .then((result) => {
+            res.status(202).json({
+                success: true,
+                data: result
+            });
+        }).catch((err) => {
+            res.status(500).json({
+                message: "Could not delete post.",
+                err: err
+            });
+        });
+
+    // ARCHIVE INSTEAD OF DELETE
+    // ADD IN FIELD DELETED DATE ON ARCHIVE
+};
+
 module.exports = {
     getPost,
     getAllPosts,
-    createPost
+    createPost,
+    deletePost
 };

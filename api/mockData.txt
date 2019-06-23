@@ -1,0 +1,48 @@
+# ADMIN
+{
+    "username": "jnpco@admin",
+    "password": "lemavatican"
+}
+
+# THREAD
+{
+	"user": "@userId",
+	"subject": "Welcome to Ukiyo."
+},
+{
+	"user": "@userId",
+	"subject": "Introduction."
+}
+
+# POST
+{
+	"user": "@userId",
+	"thread": "@threadId",
+	"content": "First Post in 'Welcome to Ukiyo' Thread"
+},
+{
+	"user": "@userId",
+	"thread": "@threadId",
+	"content": "Second Post in 'Welcome to Ukiyo' Thread"
+},
+{
+	"user": "@userId",
+	"thread": "@threadId",
+	"content": "Third Post in 'Welcome to Ukiyo' Thread"
+}
+
+{
+	"user": "@userId",
+	"thread": "@threadId",
+	"content": "First Post in 'Introduction' Thread"
+},
+{
+	"user": "@userId",
+	"thread": "@threadId",
+	"content": "Second Post in 'Introduction' Thread"
+},
+{
+	"user": "@userId",
+	"thread": "@threadId",
+	"content": "Third Post in 'Introduction' Thread"
+}
