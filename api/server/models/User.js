@@ -29,11 +29,11 @@ const userSchema = mongoose.Schema({
         maxlength: [31, "Alt name must be less than 30 characters."]
     },
     role: {
-        // Predefined roles
+        // Predefined roles { ADMIN, MOD, USER }
         type: String
     },
     avatar: {
-        // Link
+        // Avatar URL
         type: String
     },
     dateJoined: {

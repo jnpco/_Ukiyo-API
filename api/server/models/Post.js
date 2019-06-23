@@ -38,6 +38,7 @@ const postSchema = mongoose.Schema({
         required: true,
         default: false
     }
+    // ADD IN FIELD DELETED DATE ON ARCHIVE
 });
 
 module.exports = {

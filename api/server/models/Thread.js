@@ -26,7 +26,13 @@ const threadSchema = mongoose.Schema({
         required: true,
         minlength: [5, "Subject must be 5 characters or more."],
         maxlength: [101, "Subject must be less than 100 characters."]
-    }
+    },
+    archived: {
+        type: Boolean,
+        required: true,
+        default: false
+    },
+    // ADD IN FIELD DELETED DATE ON ARCHIVE
 });
 
 module.exports = {

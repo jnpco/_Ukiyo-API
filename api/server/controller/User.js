@@ -58,9 +58,20 @@ const registerUser = (req, res) => {
 };
 
 const deleteUser = (req, res) => {
-    res.status(200).json({
-        message: "DEL req user"
-    });
+    const userId = req.params.userId;
+
+    POST_MODEL.deleteOne({ _id: userId })
+        .then((result) => {
+            res.status(202).json({
+                success: true,
+                data: result
+            });
+        }).catch((err) => {
+            res.status(500).json({
+                message: "Could not delete user.",
+                err: err
+            });
+        });
 }
 
 module.exports = {
