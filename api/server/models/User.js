@@ -5,6 +5,8 @@ const mongooseUniqueValidator = require('mongoose-unique-validator');
 // COLLECTION NAMES
 const USER_LABEL = "user";
 
+const ROLES = { ADMIN: "Admin", MOD: "Moderator", MEMBER: "Member" };
+
 const userSchema = mongoose.Schema({
     _id: {
         type: mongoose.Schema.Types.ObjectId,
@@ -30,7 +32,9 @@ const userSchema = mongoose.Schema({
     },
     role: {
         // Predefined roles { ADMIN, MOD, USER }
-        type: String
+        type: String,
+        required: true,
+        default: ROLES.MEMBER
     },
     avatar: {
         // Avatar URL

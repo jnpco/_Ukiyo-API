@@ -34,6 +34,7 @@ const getAllPosts = (req, res) => {
     const threadId = req.params.threadId;
     POST_MODEL.find({ [THREAD_LABEL]: threadId, archived: false })
         .populate(USER_LABEL)
+        .populate(THREAD_LABEL)
         .then((posts) => {
             res.status(200).json({
                 success: true,
