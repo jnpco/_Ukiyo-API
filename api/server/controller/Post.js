@@ -6,7 +6,8 @@ const { POST_MODEL } = require('../models/Post');
 const { USER_LABEL } = require('../models/User');
 const { THREAD_LABEL } = require('../models/Thread');
 
-// SHOW ONLY UNARCHIVED POST
+// TODO: Add permission requirements for ops
+
 const getPost = (req, res) => {
     const postId = req.params.postId;
     POST_MODEL.findById(postId)

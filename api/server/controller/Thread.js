@@ -5,7 +5,8 @@ const { THREAD_MODEL } = require('../models/Thread');
 // COLLECTION NAMES
 const { USER_LABEL } = require('../models/User');
 
-// SHOW ONLY UNARCHIVED THREAD
+// TODO: Add permission requirements for ops
+
 const getThread = (req, res) => {
     const threadId = req.params.threadId;
     THREAD_MODEL.findById(threadId)
@@ -97,8 +98,7 @@ const deleteThread = (req, res) => {
                 err: err
             });
         });
-}
-
+};
 
 module.exports = {
     getThread,
