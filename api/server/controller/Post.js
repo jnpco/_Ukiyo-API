@@ -34,7 +34,6 @@ const getAllPosts = (req, res) => {
     const threadId = req.params.threadId;
     POST_MODEL.find({ [THREAD_LABEL]: threadId, archived: false })
         .populate(USER_LABEL)
-        .populate(THREAD_LABEL)
         .then((posts) => {
             res.status(200).json({
                 success: true,
@@ -72,8 +71,7 @@ const createPost = (req, res) => {
 };
 
 const archivePost = (req, res) => {
-    const postId = req.params.postId;
-
+    const { postId } = req.body;
     POST_MODEL.updateOne({ _id: postId }, { $set: { archived: true, dateDeleted: Date.now() } })
         .then((result) => {
             res.status(202).json({
@@ -82,14 +80,14 @@ const archivePost = (req, res) => {
             });
         }).catch((err) => {
             res.status(500).json({
-                message: "Could not delete thread.",
+                message: "Could not delete post.",
                 err: err
             });
         });
 };
 
 const deletePost = (req, res) => {
-    const postId = req.params.postId;
+    const { postId } = req.body;
     POST_MODEL.deleteOne({ _id: postId })
         .then((result) => {
             res.status(202).json({

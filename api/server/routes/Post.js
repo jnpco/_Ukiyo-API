@@ -7,7 +7,7 @@ const Controller = require('../controller');
 // TODO: Use query instead of params for get
 router.get('/:threadId', Controller.Post.getAllPosts);
 router.post('/', Controller.Post.createPost);
-router.patch('/:postId', Controller.Post.archivePost);
-router.delete('/:postId', Controller.Post.deletePost);
+router.patch('/', Controller.Post.archivePost);
+router.delete('/', Controller.Post.deletePost);
 
 module.exports = router;
