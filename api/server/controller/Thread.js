@@ -4,7 +4,8 @@ const mongoose = require('mongoose');
 const { THREAD_MODEL } = require('../models/Thread');
 // COLLECTION NAMES
 const { USER_LABEL } = require('../models/User');
-
+// ARCHIVE ALL POSTS INSIDE THREAD
+const { archiveAllPosts, deleteAllPosts } = require('./Post');
 // TODO: Add permission requirements for ops
 
 const getThread = (req, res) => {
@@ -76,6 +77,7 @@ const archiveThread = (req, res) => {
                 success: true,
                 data: result
             });
+            archiveAllPosts(threadId);
         }).catch((err) => {
             res.status(500).json({
                 message: "Could not delete thread.",
@@ -92,6 +94,7 @@ const deleteThread = (req, res) => {
                 success: true,
                 data: result
             });
+            deleteAllPosts(threadId);
         }).catch((err) => {
             res.status(500).json({
                 message: "Thread could not be permanently deleted.",

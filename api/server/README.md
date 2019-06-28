@@ -3,8 +3,7 @@
 ### Routes
 
 [Collection]
-[Request] [URL] [desc] [[args: { key : <TYPE>}]]
-*req params collectionId refers to mongoose Type ObjectId*
+[Request] [URL] [desc] [[args: { key : \<TYPE\>}]]
 
 **_ARCHIVING OR DELETING a higher hierarchy structure, will also do the same operation to it's children_**
 
