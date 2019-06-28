@@ -48,11 +48,11 @@ const getAllPosts = (req, res) => {
 };
 
 const createPost = (req, res) => {
-    const { thread, user, content } = req.body;
+    const { threadId, userId, content } = req.body;
     const post = new POST_MODEL({
         _id: new mongoose.Types.ObjectId(),
-        [THREAD_LABEL]: thread,
-        [USER_LABEL]: user,
+        [THREAD_LABEL]: threadId,
+        [USER_LABEL]: userId,
         content
     });
 
