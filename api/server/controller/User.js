@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 
 // MODEL IMPORT
 const { USER_MODEL } = require('../models/User');
@@ -36,25 +37,36 @@ const getAllUsers = (req, res) => {
 
 const registerUser = (req, res) => {
     // -> Add Validation for both client and server
+    // Fix bug with password length
     const { username, password } = req.body;
-    const user = new USER_MODEL({
-        _id: new mongoose.Types.ObjectId(),
-        username,
-        password
-    });
 
-    user.save()
-        .then((newUser) => {
-            res.status(201).json({
-                success: true,
-                data: newUser
-            });
-        }).catch((err) => {
-            res.status(500).json({
+    bcrypt.hash(password, 10, (err, hashed) => {
+        if(err){
+            return res.status(500).json({
                 message: "Could not register user.",
                 err: err
+            })
+        } else {
+            const user = new USER_MODEL({
+                _id: new mongoose.Types.ObjectId(),
+                username,
+                password: hashed
             });
-        });
+            user.save()
+                .then((newUser) => {
+                    console.log(newUser)
+                    res.status(201).json({
+                        success: true,
+                        data: newUser
+                    });
+                }).catch((err) => {
+                    res.status(500).json({
+                        message: "Could not register user.",
+                        err: err
+                    });
+                });
+        }
+    })
 };
 
 const deleteUser = (req, res) => {

@@ -26,7 +26,7 @@ Thread
 	
 Post		
 	[GET]	'post/:threadId' 	- Gets all post from thread	PARAM: { threadId: <ObjectId> }			
-	[POST]	'post/'			- Creates a post		BODY: { threadId: <ObjectId>, userId: <ObjectId>, content: <String> 
+	[POST]	'post/'			- Creates a post		BODY: { threadId: <ObjectId>, userId: <ObjectId>, content: <String> }
 	[PATCH]	'post/'			- Archives post (Recommended)	BODY: { postId: <ObjectId> }
 	[DEL]	'post/:postId'		- Permanently delete post	BODY: { postId: <ObjectId> }
 ```
