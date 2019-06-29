@@ -1,5 +1,6 @@
 module.exports = {
     Post: require('./Post'),
     Thread: require('./Thread'),
-    User: require('./User')
+    User: require('./User'),
+    Session: require('./Session')
 }
