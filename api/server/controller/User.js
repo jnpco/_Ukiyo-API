@@ -37,36 +37,47 @@ const getAllUsers = (req, res) => {
 
 const registerUser = (req, res) => {
     // -> Add Validation for both client and server
-    // Fix bug with password length
     const { username, password } = req.body;
 
-    bcrypt.hash(password, 10, (err, hashed) => {
-        if(err){
-            return res.status(500).json({
-                message: "Could not register user.",
-                err: err
-            })
-        } else {
-            const user = new USER_MODEL({
-                _id: new mongoose.Types.ObjectId(),
-                username,
-                password: hashed
-            });
-            user.save()
-                .then((newUser) => {
-                    console.log(newUser)
-                    res.status(201).json({
-                        success: true,
-                        data: newUser
-                    });
-                }).catch((err) => {
-                    res.status(500).json({
-                        message: "Could not register user.",
-                        err: err
-                    });
+    if(password.length < 10){
+        res.status(500).json({
+            err: "Password must be 10 characters or more.",
+        });
+    }
+    else if(password.length > 100){
+        res.status(201).json({
+            err: "Password must not be longer than 100 characters."
+        });
+    }
+    else{
+        bcrypt.hash(password, 10, (err, hashed) => {
+            if(err){
+                return res.status(500).json({
+                    message: "Could not register user.",
+                    err: err
+                })
+            } else {
+                const user = new USER_MODEL({
+                    _id: new mongoose.Types.ObjectId(),
+                    username,
+                    password: hashed
                 });
-        }
-    })
+                user.save()
+                    .then((newUser) => {
+                        const {password, ...user} = newUser.toObject();
+                        res.status(201).json({
+                            success: true,
+                            data: user
+                        });
+                    }).catch((err) => {
+                        res.status(500).json({
+                            message: "Could not register user.",
+                            err: err
+                        });
+                    });
+            }
+        })
+    };
 };
 
 const deleteUser = (req, res) => {

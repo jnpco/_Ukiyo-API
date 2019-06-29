@@ -21,9 +21,8 @@ const userSchema = mongoose.Schema({
     },
     password: {
         type: String,
-        required: true,
-        minlength: [10, "Password must be 10 characters or more."],
-        maxlength: [101, "Passwords must be less than 100 characters."]
+        required: true
+        // Length validation is in the controller.
     },
     altname: {
         type: String,
