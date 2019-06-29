@@ -6,22 +6,33 @@ const { USER_MODEL } = require('../models/User');
 
 const getUser = (req, res) => {
     const userId = req.params.userId;
-    USER_MODEL.findById(userId, (err, user) => {
-        user ?
-            res.status(200).json({
-                success: true,
-                data: user
-            })
-            :
+
+    USER_MODEL.findOne({_id: userId}).select("-password")
+        .then(user => {
+            if (user) {
+                res.status(200).json({
+                    success: true,
+                    data: user
+                })
+            } else {
+                res.status(404).json({
+                    message: "User not found.",
+                    err: err
+                })
+            }
+        })
+        .catch(err => {
             res.status(404).json({
-                message: "User not found.",
+                message: "Something went wrong. Cannot fetch user.",
                 err: err
-            })
-    })
+            });
+        });
 };
 
+
+// TODO: Change error, catch shouldnt be specific
 const getAllUsers = (req, res) => {
-    USER_MODEL.find({})
+    USER_MODEL.find({}).select("-password")
         .then((users) => {
             res.status(200).json({
                 success: true,
@@ -35,8 +46,7 @@ const getAllUsers = (req, res) => {
         });
 };
 
-const registerUser = (req, res) => {
-    // -> Add Validation for both client and server
+const createUser = (req, res) => {
     const { username, password } = req.body;
 
     if(password.length < 10){
@@ -78,7 +88,7 @@ const registerUser = (req, res) => {
             }
         })
     };
-};
+}
 
 const deleteUser = (req, res) => {
     const userId = req.params.userId;
@@ -99,6 +109,6 @@ const deleteUser = (req, res) => {
 module.exports = {
     getUser,
     getAllUsers,
-    registerUser,
+    createUser,
     deleteUser
 }
