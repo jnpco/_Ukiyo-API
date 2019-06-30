@@ -40,7 +40,7 @@ const getAllUsers = (req, res) => {
             });
         }).catch((err) => {
             res.status(404).json({
-                message: "No registered user.",
+                message: "No registered users.",
                 err: err
             });
         });
