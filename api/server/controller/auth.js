@@ -17,6 +17,7 @@ const login = (req, res) => {
                             err: err
                         });
                     } else {
+                        // Send userId as payload to token
                         const token = jwt.sign({ _id: user._id }, process.env.JWT_KEY, { expiresIn: process.env.JWT_EXPIRATION });
                         res.header('auth-token', token);
 
