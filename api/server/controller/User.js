@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
 // MODEL IMPORT
-const { USER_MODEL } = require('../models/User');
+const { USER_MODEL } = require('../models/user');
 
 const getUser = (req, res) => {
     const userId = req.params.userId;

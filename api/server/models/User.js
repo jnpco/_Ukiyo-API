@@ -2,10 +2,10 @@ const mongoose = require('mongoose');
 mongoose.pluralize(null);
 const mongooseUniqueValidator = require('mongoose-unique-validator');
 
+const ROLES = require("../accessLevels");
+
 // COLLECTION NAMES
 const USER_LABEL = "user";
-
-const ROLES = { ADMIN: "Admin", MOD: "Moderator", MEMBER: "Member" };
 
 const userSchema = mongoose.Schema({
     _id: {
@@ -33,7 +33,7 @@ const userSchema = mongoose.Schema({
         // Predefined roles { ADMIN, MOD, USER }
         type: String,
         required: true,
-        default: ROLES.MEMBER
+        default: ROLES.MEMBER.key
     },
     avatar: {
         // Avatar URL

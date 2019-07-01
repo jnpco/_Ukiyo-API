@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
 
 // MODEL IMPORT
-const { THREAD_MODEL } = require('../models/Thread');
+const { THREAD_MODEL } = require('../models/thread');
 // COLLECTION NAMES
-const { USER_LABEL } = require('../models/User');
+const { USER_LABEL } = require('../models/user');
 // ARCHIVE ALL POSTS INSIDE THREAD
-const { archiveAllPosts, deleteAllPosts } = require('./Post');
+const { archiveAllPosts, deleteAllPosts } = require('./post');
 // TODO: Add permission requirements for ops
 
 const getThread = (req, res) => {

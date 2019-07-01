@@ -1,7 +1,7 @@
 module.exports = {
-    Post: require('./Post'),
-    Thread: require('./Thread'),
-    User: require('./User'),
-    Error: require('./Error'),
-    Session: require('./Session')
+    Post: require('./post'),
+    Thread: require('./thread'),
+    User: require('./user'),
+    Error: require('./error'),
+    Auth: require('./auth')
 }

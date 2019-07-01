@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 
 // MODEL IMPORT
-const { POST_MODEL } = require('../models/Post');
+const { POST_MODEL } = require('../models/post');
 // COLLECTION NAMES
-const { USER_LABEL } = require('../models/User');
-const { THREAD_LABEL } = require('../models/Thread');
+const { USER_LABEL } = require('../models/user');
+const { THREAD_LABEL } = require('../models/thread');
 
 // TODO: Add permission requirements for ops
 

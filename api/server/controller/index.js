@@ -1,6 +1,6 @@
 module.exports = {
-    Post: require('./Post'),
-    Thread: require('./Thread'),
-    User: require('./User'),
-    Session: require('./Session')
+    Post: require('./post'),
+    Thread: require('./thread'),
+    User: require('./user'),
+    Auth: require('./auth')
 }

@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 mongoose.pluralize(null);
 
 // COLLECTION NAMES
-const { USER_LABEL } = require('../models/User');
+const { USER_LABEL } = require('./user');
 
 const THREAD_LABEL = "thread";
 
