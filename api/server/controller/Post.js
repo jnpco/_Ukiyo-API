@@ -48,7 +48,8 @@ const getAllPosts = (req, res) => {
 };
 
 const createPost = (req, res) => {
-    const { threadId, userId, content } = req.body;
+    const { userId } = req.authorization;
+    const { threadId, content } = req.body;
     const post = new POST_MODEL({
         _id: new mongoose.Types.ObjectId(),
         [THREAD_LABEL]: threadId,
@@ -71,8 +72,9 @@ const createPost = (req, res) => {
 };
 
 const archivePost = (req, res) => {
+    const { userId } = req.authorization;
     const { postId } = req.body;
-    POST_MODEL.updateOne({ _id: postId }, { $set: { archived: true, dateDeleted: Date.now() } })
+    POST_MODEL.updateOne({ _id: postId, user: userId }, { $set: { archived: true, dateDeleted: Date.now() } })
         .then((result) => {
             res.status(202).json({
                 success: true,
@@ -103,7 +105,7 @@ const archiveAllPosts = (threadId) => {
 
 const deletePost = (req, res) => {
     const { postId } = req.body;
-    POST_MODEL.deleteOne({ _id: postId })
+    POST_MODEL.deleteOne({ _id: postId, user: userId })
         .then((result) => {
             res.status(202).json({
                 success: true,

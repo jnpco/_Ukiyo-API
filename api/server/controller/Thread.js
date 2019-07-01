@@ -47,7 +47,8 @@ const getAllThreads = (req, res) => {
 };
 
 const createThread = (req, res) => {
-    const { userId, subject } = req.body;
+    const { userId } = req.authorization;
+    const { subject } = req.body;
     const thread = new THREAD_MODEL({
         _id: new mongoose.Types.ObjectId(),
         [USER_LABEL]: userId,
@@ -69,8 +70,9 @@ const createThread = (req, res) => {
 };
 
 const archiveThread = (req, res) => {
+    const { userId } = req.authorization;
     const { threadId } = req.body;
-    THREAD_MODEL.updateOne({ _id: threadId }, { $set: { "archived": true, "dateDeleted": Date.now() } })
+    THREAD_MODEL.updateOne({ _id: threadId, user: userId }, { $set: { "archived": true, "dateDeleted": Date.now() } })
         .then((result) => {
             res.status(202).json({
                 success: true,
@@ -86,8 +88,9 @@ const archiveThread = (req, res) => {
 };
 
 const deleteThread = (req, res) => {
+    const { userId } = req.authorization;
     const { threadId } = req.body;
-    THREAD_MODEL.deleteOne({ _id: threadId })
+    THREAD_MODEL.deleteOne({ _id: threadId, user: userId })
         .then((result) => {
             res.status(202).json({
                 success: true,

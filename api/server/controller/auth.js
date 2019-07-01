@@ -17,12 +17,12 @@ const createAuthToken = (req, res) => {
                             err: err
                         });
                     } else {
-                        // Send userId as payload to token
-                        const token = jwt.sign({ _id: user._id, role: user.role }, process.env.JWT_KEY, { expiresIn: process.env.JWT_EXPIRATION });
+                        // Send userId and role as payload to token
+                        const token = jwt.sign({ userId: user._id, role: user.role }, process.env.JWT_KEY, { expiresIn: process.env.JWT_EXPIRATION });
                         res.status(200).json({
                             success: true,
                             message: "Logged in successfully",
-                            data: { token }
+                            token: token
                         });
                     };
                 })
