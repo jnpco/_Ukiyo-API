@@ -6,7 +6,6 @@ const { THREAD_MODEL } = require('../models/thread');
 const { USER_LABEL } = require('../models/user');
 // ARCHIVE ALL POSTS INSIDE THREAD
 const { archiveAllPosts, deleteAllPosts } = require('./post');
-// TODO: Add permission requirements for ops
 
 const getThread = (req, res) => {
     const threadId = req.params.threadId;

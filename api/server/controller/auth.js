@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 // MODEL IMPORT
 const { USER_MODEL } = require('../models/user');
 
-const login = (req, res) => {
+const createAuthToken = (req, res) => {
     const { username, password } = req.body;
 
     USER_MODEL.findOne({username: username})
@@ -18,9 +18,7 @@ const login = (req, res) => {
                         });
                     } else {
                         // Send userId as payload to token
-                        const token = jwt.sign({ _id: user._id }, process.env.JWT_KEY, { expiresIn: process.env.JWT_EXPIRATION });
-                        res.header('auth-token', token);
-
+                        const token = jwt.sign({ _id: user._id, role: user.role }, process.env.JWT_KEY, { expiresIn: process.env.JWT_EXPIRATION });
                         res.status(200).json({
                             success: true,
                             message: "Logged in successfully",
@@ -43,11 +41,6 @@ const login = (req, res) => {
         });
 };
 
-const logout = (req, res) => {
-
-};
-
 module.exports = {
-    login,
-    logout
+    createAuthToken
 }
