@@ -1,7 +1,8 @@
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 // MODEL IMPORT
-const { USER_MODEL } = require('../models/User');
+const { USER_MODEL } = require('../models/user');
 
 const login = (req, res) => {
     const { username, password } = req.body;
@@ -16,9 +17,13 @@ const login = (req, res) => {
                             err: err
                         });
                     } else {
+                        const token = jwt.sign({ _id: user._id }, process.env.JWT_KEY, { expiresIn: process.env.JWT_EXPIRATION });
+                        res.header('auth-token', token);
+
                         res.status(200).json({
                             success: true,
-                            message: "Logged in successfully"
+                            message: "Logged in successfully",
+                            data: { token }
                         });
                     };
                 })

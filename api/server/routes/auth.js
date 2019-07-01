@@ -3,7 +3,7 @@ const router = express.Router();
 
 const Controller = require('../controller')
 
-router.post('/', Controller.Session.login);
-router.delete('/', Controller.Session.logout);
+router.post('/', Controller.Auth.login);
+router.delete('/', Controller.Auth.logout);
 
 module.exports = router;
