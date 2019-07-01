@@ -2,19 +2,19 @@ const mongoose = require('mongoose');
 mongoose.pluralize(null);
 
 // COLLECTION NAMES
-const { USER_LABEL } = require('./user');
+const { CN_USER } = require('./user');
 
-const THREAD_LABEL = "thread";
+const CN_THREAD = "thread";
 
 const threadSchema = mongoose.Schema({
     _id: {
         type: mongoose.Schema.Types.ObjectId,
         required: true
     },
-    [USER_LABEL]: {
+    [CN_USER]: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
-        ref: USER_LABEL
+        ref: CN_USER
     },
     dateCreated: {
         type: Date,
@@ -38,6 +38,6 @@ const threadSchema = mongoose.Schema({
 });
 
 module.exports = {
-    THREAD_MODEL: mongoose.model(THREAD_LABEL, threadSchema),
-    THREAD_LABEL
+    THREAD: mongoose.model(CN_THREAD, threadSchema),
+    CN_THREAD
 };

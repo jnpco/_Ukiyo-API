@@ -1,16 +1,16 @@
 const mongoose = require('mongoose');
 
 // MODEL IMPORT
-const { POST_MODEL } = require('../models/post');
+const { POST } = require('../models/post');
 // COLLECTION NAMES
-const { USER_LABEL } = require('../models/user');
-const { THREAD_LABEL } = require('../models/thread');
+const { CN_USER } = require('../models/user');
+const { CN_THREAD } = require('../models/thread');
 
 // TODO: Add permission requirements for ops
 
 const getPost = (req, res) => {
     const postId = req.params.postId;
-    POST_MODEL.findById(postId)
+    POST.findById(postId)
         .then((post) => {
             if (post.archived) {
                 res.status(404).json({
@@ -32,8 +32,8 @@ const getPost = (req, res) => {
 
 const getAllPosts = (req, res) => {
     const threadId = req.params.threadId;
-    POST_MODEL.find({ [THREAD_LABEL]: threadId, archived: false })
-        .populate(USER_LABEL)
+    POST.find({ [CN_THREAD]: threadId, archived: false })
+        .populate(CN_USER)
         .then((posts) => {
             res.status(200).json({
                 success: true,
@@ -50,10 +50,10 @@ const getAllPosts = (req, res) => {
 const createPost = (req, res) => {
     const { userId } = req.authorization;
     const { threadId, content } = req.body;
-    const post = new POST_MODEL({
+    const post = new POST({
         _id: new mongoose.Types.ObjectId(),
-        [THREAD_LABEL]: threadId,
-        [USER_LABEL]: userId,
+        [CN_THREAD]: threadId,
+        [CN_USER]: userId,
         content
     });
 
@@ -74,7 +74,7 @@ const createPost = (req, res) => {
 const archivePost = (req, res) => {
     const { userId } = req.authorization;
     const { postId } = req.body;
-    POST_MODEL.updateOne({ _id: postId, user: userId }, { $set: { archived: true, dateDeleted: Date.now() } })
+    POST.updateOne({ _id: postId, [CN_USER]: userId }, { $set: { archived: true, dateDeleted: Date.now() } })
         .then((result) => {
             res.status(202).json({
                 success: true,
@@ -89,7 +89,7 @@ const archivePost = (req, res) => {
 };
 
 const archiveAllPosts = (threadId) => {
-    POST_MODEL.updateMany({ thread: threadId }, { $set: { archived: true, dateDeleted: Date.now() } })
+    POST.updateMany({ thread: threadId }, { $set: { archived: true, dateDeleted: Date.now() } })
         .then((result) => {
             res.status(202).json({
                 success: true,
@@ -104,8 +104,9 @@ const archiveAllPosts = (threadId) => {
 };
 
 const deletePost = (req, res) => {
+    const { userId } = req.authorization;
     const { postId } = req.body;
-    POST_MODEL.deleteOne({ _id: postId, user: userId })
+    POST.deleteOne({ _id: postId, [CN_USER]: userId })
         .then((result) => {
             res.status(202).json({
                 success: true,
@@ -120,7 +121,7 @@ const deletePost = (req, res) => {
 };
 
 const deleteAllPosts = (threadId) => {
-    POST_MODEL.deleteMany({ thread: threadId })
+    POST.deleteMany({ thread: threadId })
         .then((result) => {
             res.status(202).json({
                 success: true,

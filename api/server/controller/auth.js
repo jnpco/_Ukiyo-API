@@ -2,12 +2,12 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 // MODEL IMPORT
-const { USER_MODEL } = require('../models/user');
+const { USER } = require('../models/user');
 
 const createAuthToken = (req, res) => {
     const { username, password } = req.body;
 
-    USER_MODEL.findOne({username: username})
+    USER.findOne({username: username})
         .then(user => {
             if(user){
                 bcrypt.compare(password, user.password, (err) => {

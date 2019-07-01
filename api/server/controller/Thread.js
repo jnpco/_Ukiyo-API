@@ -1,16 +1,16 @@
 const mongoose = require('mongoose');
 
 // MODEL IMPORT
-const { THREAD_MODEL } = require('../models/thread');
+const { THREAD } = require('../models/thread');
 // COLLECTION NAMES
-const { USER_LABEL } = require('../models/user');
+const { CN_USER } = require('../models/user');
 // ARCHIVE ALL POSTS INSIDE THREAD
 const { archiveAllPosts, deleteAllPosts } = require('./post');
 
 const getThread = (req, res) => {
     const threadId = req.params.threadId;
-    THREAD_MODEL.findById(threadId)
-        .populate(USER_LABEL)
+    THREAD.findById(threadId)
+        .populate(CN_USER)
         .then((thread) => {
             if (thread.archived) {
                 res.status(404).json({
@@ -31,9 +31,10 @@ const getThread = (req, res) => {
 };
 
 const getAllThreads = (req, res) => {
-    THREAD_MODEL.find({ archived: false })
-        .populate(USER_LABEL)
+    THREAD.find({ archived: false })
+        .populate('user')
         .then((threads) => {
+            console.log(threads)
             res.status(200).json({
                 success: true,
                 data: threads
@@ -48,10 +49,11 @@ const getAllThreads = (req, res) => {
 
 const createThread = (req, res) => {
     const { userId } = req.authorization;
+    console.log(userId)
     const { subject } = req.body;
-    const thread = new THREAD_MODEL({
+    const thread = new THREAD({
         _id: new mongoose.Types.ObjectId(),
-        [USER_LABEL]: userId,
+        [CN_USER]: userId,
         subject
     });
 
@@ -72,7 +74,7 @@ const createThread = (req, res) => {
 const archiveThread = (req, res) => {
     const { userId } = req.authorization;
     const { threadId } = req.body;
-    THREAD_MODEL.updateOne({ _id: threadId, user: userId }, { $set: { "archived": true, "dateDeleted": Date.now() } })
+    THREAD.updateOne({ _id: threadId, [CN_USER]: userId }, { $set: { "archived": true, "dateDeleted": Date.now() } })
         .then((result) => {
             res.status(202).json({
                 success: true,
@@ -90,7 +92,7 @@ const archiveThread = (req, res) => {
 const deleteThread = (req, res) => {
     const { userId } = req.authorization;
     const { threadId } = req.body;
-    THREAD_MODEL.deleteOne({ _id: threadId, user: userId })
+    THREAD.deleteOne({ _id: threadId, [CN_USER]: userId })
         .then((result) => {
             res.status(202).json({
                 success: true,

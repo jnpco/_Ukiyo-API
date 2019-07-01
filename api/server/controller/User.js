@@ -2,12 +2,12 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
 // MODEL IMPORT
-const { USER_MODEL } = require('../models/user');
+const { USER } = require('../models/user');
 
 const getUser = (req, res) => {
     const userId = req.params.userId;
 
-    USER_MODEL.findOne({_id: userId}).select("-password")
+    USER.findOne({_id: userId}).select("-password")
         .then(user => {
             if (user) {
                 res.status(200).json({
@@ -32,7 +32,7 @@ const getUser = (req, res) => {
 
 // TODO: Change error, catch shouldnt be specific
 const getAllUsers = (req, res) => {
-    USER_MODEL.find({}).select("-password")
+    USER.find({}).select("-password")
         .then((users) => {
             res.status(200).json({
                 success: true,
@@ -67,7 +67,7 @@ const createUser = (req, res) => {
                     err: err
                 })
             } else {
-                const user = new USER_MODEL({
+                const user = new USER({
                     _id: new mongoose.Types.ObjectId(),
                     username,
                     password: hashed

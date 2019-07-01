@@ -5,7 +5,7 @@ const mongooseUniqueValidator = require('mongoose-unique-validator');
 const ROLES = require("../accessLevels");
 
 // COLLECTION NAMES
-const USER_LABEL = "user";
+const CN_USER = "user";
 
 const userSchema = mongoose.Schema({
     _id: {
@@ -64,6 +64,6 @@ const userSchema = mongoose.Schema({
 userSchema.plugin(mongooseUniqueValidator);
 
 module.exports = {
-    USER_MODEL: mongoose.model(USER_LABEL, userSchema),
-    USER_LABEL
+    USER: mongoose.model(CN_USER, userSchema),
+    CN_USER
 };
