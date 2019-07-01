@@ -5,16 +5,19 @@
 [Collection]
 [Request] [URL] [desc] [[args: { key : \<TYPE\>}]]
 
-**_ARCHIVING OR DELETING a higher hierarchy structure, will also do the same operation to it's children_**
+**_ARCHIVING OR Permanently DELETING a higher hierarchy structure, will also ARCHIVE/Permanently DELETE it's children_**
 
-\- *example: Archiving a thread, will archive all it's posts. Archiving a subforum will archive all it's threads, then posts.*
+\- *example: Archiving a thread, will archive all it's posts. Archiving a subforum will archive all it's threads, then all it's posts.*
 
 
 ```
+Auth	[POST]	'auth/'			- User login			PARAM: { username: <String>, password: <String>}
+					- Creates and sends a JWT 
+					  token to client.
 User
 	[GET]	'user/' 		- Gets all users	
 	[GET]	'user/:userId' 		- Gets a user			PARAM: { userId: <ObjectId> }
-	[POST]	'user/'			- Creates user resource		BODY: { username: <String>, "password": <String> }
+	[POST]	'user/'			- Register/Creates user		BODY: { username: <String>, password: <String> }
 	[DEL]	'user/:userId'		- Permanently delete user	BODY: { userId: <ObjectId> }
 	
 Thread
