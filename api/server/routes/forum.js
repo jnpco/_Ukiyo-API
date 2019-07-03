@@ -2,13 +2,13 @@ const express = require('express');
 const router = express.Router();
 
 const { getAllForums, createForum, archiveForum, deleteForum } = require('../controller').Forum;
-const { verifyAuthentication} = require('../auth');
+const { verifyAuthentication, verifyAccessLevelPerms, accessLevelPerms } = require('../auth');
+const { ADMIN } = accessLevelPerms;
 
 router.get('/', getAllForums);
 
-// NEEDS AUTHENTICATION
-router.post('/', verifyAuthentication, createForum);
-router.patch('/', verifyAuthentication, archiveForum);
-router.delete('/', verifyAuthentication, deleteForum);
+router.post('/', verifyAuthentication, verifyAccessLevelPerms(ADMIN.name), createForum);
+router.patch('/', verifyAuthentication, verifyAccessLevelPerms(ADMIN.name),archiveForum);
+router.delete('/', verifyAuthentication, verifyAccessLevelPerms(ADMIN.name), deleteForum);
 
 module.exports = router;
