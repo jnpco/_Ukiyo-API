@@ -8,7 +8,7 @@ const verifyAuthentication = (req, res, next) => {
         req.authorization = decoded;
         next();
     } catch (err) {
-        return res.status(401).json({
+        res.status(401).json({
             message: "Auth failed",
             err: err
         });

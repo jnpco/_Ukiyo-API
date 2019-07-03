@@ -7,7 +7,7 @@ const { USER } = require('../models/user');
 const createAuthToken = (req, res) => {
     const { username, password } = req.body;
 
-    USER.findOne({username: username})
+    USER.findOne({username: username}).select('+password')
         .then(user => {
             if(user){
                 bcrypt.compare(password, user.password, (err) => {
@@ -27,7 +27,7 @@ const createAuthToken = (req, res) => {
                     };
                 })
             } 
-            else{ 
+            else { 
                 res.status(401).json({
                     message: "Authentication failed."
                 });

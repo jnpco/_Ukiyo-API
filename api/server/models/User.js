@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 mongoose.pluralize(null);
 const mongooseUniqueValidator = require('mongoose-unique-validator');
 
-const ROLES = require("../accessLevels");
+const accessLevelPerms = require("../auth/accessLevelPerms");
 
 // COLLECTION NAMES
 const CN_USER = "user";
@@ -34,7 +34,7 @@ const userSchema = mongoose.Schema({
         // Predefined roles { ADMIN, MOD, USER }
         type: String,
         required: true,
-        default: ROLES.MEMBER.key
+        default: accessLevelPerms.MEMBER.name
     },
     avatar: {
         // Avatar URL
