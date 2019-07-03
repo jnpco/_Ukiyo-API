@@ -1,16 +1,15 @@
 const express = require('express');
 const router = express.Router();
 
-const Controller = require('../controller');
-const Authentication = require('../auth');
+const { getAllThreads, createThread, archiveThread, deleteThread } = require('../controller').Thread;
+const { verifyAuthentication } = require('../auth');
 
 // TODO: Use query instead of params for get
-router.get('/', Controller.Thread.getAllThreads);
-router.get('/:threadId', Controller.Thread.getThread);
+router.get('/:subforumId', getAllThreads);
 
 // NEEDS AUTHENTICATION
-router.post('/', Authentication.verifyAuthentication, Controller.Thread.createThread);
-router.patch('/', Authentication.verifyAuthentication, Controller.Thread.archiveThread);
-router.delete('/', Authentication.verifyAuthentication, Controller.Thread.deleteThread);
+router.post('/', verifyAuthentication, createThread);
+router.patch('/', verifyAuthentication, archiveThread);
+router.delete('/', verifyAuthentication, deleteThread);
 
 module.exports = router;

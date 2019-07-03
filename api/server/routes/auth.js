@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
-const Controller = require('../controller')
+const { createAuthToken } = require('../controller').Auth;
 
-router.post('/', Controller.Auth.createAuthToken);
+router.post('/', createAuthToken);
 
 module.exports = router;
