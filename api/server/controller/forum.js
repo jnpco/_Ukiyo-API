@@ -4,8 +4,6 @@ const mongoose = require('mongoose');
 const { FORUM } = require('../models/forum');
 // COLLECTION NAMES
 const { CN_USER } = require('../models/user');
-// ARCHIVE ALL POSTS INSIDE FORUM
-const { archiveAllSubforums, deleteAllSubforums } = require('./subforum');
 
 const getAllForums = (req, res) => {
     FORUM.find({ archived: false })
@@ -55,7 +53,6 @@ const archiveForum = (req, res) => {
                 success: true,
                 data: result
             });
-            archiveAllSubforums(forumId);
         }).catch((err) => {
             res.status(500).json({
                 message: "Could not delete forum.",
@@ -73,7 +70,6 @@ const deleteForum = (req, res) => {
                 success: true,
                 data: result
             });
-            deleteAllSubforums(forumId);
         }).catch((err) => {
             res.status(500).json({
                 message: "Thread could not be permanently deleted.",

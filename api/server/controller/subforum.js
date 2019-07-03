@@ -5,8 +5,6 @@ const { SUBFORUM } = require('../models/subforum');
 // COLLECTION NAMES
 const { CN_USER } = require('../models/user');
 const { CN_FORUM } = require('../models/forum')
-// ARCHIVE ALL POSTS INSIDE SUBFORUM
-const { archiveAllThreads, deleteAllThreads } = require('./thread');
 
 const getAllSubforums = (req, res) => {
     const forumId = req.params.forumId;
@@ -58,25 +56,9 @@ const archiveSubforum = (req, res) => {
                 success: true,
                 data: result
             });
-            archiveAllThreads(subforumId);
         }).catch((err) => {
             res.status(500).json({
                 message: "Could not delete subforum.",
-                err: err
-            });
-        });
-};
-
-const archiveAllSubforums = (forumId) => {
-    SUBFORUM.updateMany({ [CN_FORUM]: forumId }, { $set: { archived: true, dateDeleted: Date.now() } })
-        .then((result) => {
-            res.status(202).json({
-                success: true,
-                data: result
-            });
-        }).catch((err) => {
-            res.status(500).json({
-                message: "Could not delete subforums.",
                 err: err
             });
         });
@@ -91,25 +73,9 @@ const deleteSubforum = (req, res) => {
                 success: true,
                 data: result
             });
-            deleteAllThreads(threadId);
         }).catch((err) => {
             res.status(500).json({
                 message: "Subforum could not be permanently deleted.",
-                err: err
-            });
-        });
-};
-
-const deleteAllSubforums = (forumId) => {
-    SUBFORUM.deleteMany({ [CN_FORUM]: forumId })
-        .then((result) => {
-            res.status(202).json({
-                success: true,
-                data: result
-            });
-        }).catch((err) => {
-            res.status(500).json({
-                message: "Could not permanently delete subforums.",
                 err: err
             });
         });
@@ -119,7 +85,5 @@ module.exports = {
     getAllSubforums,
     createSubforum,
     archiveSubforum,
-    archiveAllSubforums,
-    deleteSubforum,
-    deleteAllSubforums
+    deleteSubforum
 };

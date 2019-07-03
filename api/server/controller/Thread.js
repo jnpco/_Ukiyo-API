@@ -5,8 +5,6 @@ const { THREAD } = require('../models/thread');
 // COLLECTION NAMES
 const { CN_USER } = require('../models/user');
 const { CN_SUBFORUM } = require('../models/subforum');
-// ARCHIVE ALL POSTS INSIDE THREAD
-const { archiveAllPosts, deleteAllPosts } = require('./post');
 
 const getAllThreads = (req, res) => {
     const subforumId = req.params.subforumId;
@@ -59,25 +57,9 @@ const archiveThread = (req, res) => {
                 success: true,
                 data: result
             });
-            archiveAllPosts(threadId);
         }).catch((err) => {
             res.status(500).json({
                 message: "Could not delete thread.",
-                err: err
-            });
-        });
-};
-
-const archiveAllThreads = (subforumId) => {
-    THREAD.updateMany({ [CN_SUBFORUM]: subforumId }, { $set: { archived: true, dateDeleted: Date.now() } })
-        .then((result) => {
-            res.status(202).json({
-                success: true,
-                data: result
-            });
-        }).catch((err) => {
-            res.status(500).json({
-                message: "Could not delete threads.",
                 err: err
             });
         });
@@ -92,25 +74,9 @@ const deleteThread = (req, res) => {
                 success: true,
                 data: result
             });
-            deleteAllPosts(threadId);
         }).catch((err) => {
             res.status(500).json({
                 message: "Thread could not be permanently deleted.",
-                err: err
-            });
-        });
-};
-
-const deleteAllThreads = (subforumId) => {
-    THREAD.deleteMany({ [CN_SUBFORUM]: subforumId })
-        .then((result) => {
-            res.status(202).json({
-                success: true,
-                data: result
-            });
-        }).catch((err) => {
-            res.status(500).json({
-                message: "Could not permanently delete threads.",
                 err: err
             });
         });
@@ -120,7 +86,5 @@ module.exports = {
     getAllThreads,
     createThread,
     archiveThread,
-    archiveAllThreads,
-    deleteThread,
-    deleteAllThreads
+    deleteThread
 };

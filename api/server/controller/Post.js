@@ -64,21 +64,6 @@ const archivePost = (req, res) => {
         });
 };
 
-const archiveAllPosts = (threadId) => {
-    POST.updateMany({ thread: threadId }, { $set: { archived: true, dateDeleted: Date.now() } })
-        .then((result) => {
-            res.status(202).json({
-                success: true,
-                data: result
-            });
-        }).catch((err) => {
-            res.status(500).json({
-                message: "Could not delete posts.",
-                err: err
-            });
-        });
-};
-
 const deletePost = (req, res) => {
     const { userId } = req.authorization;
     const { postId } = req.body;
@@ -96,26 +81,9 @@ const deletePost = (req, res) => {
         });
 };
 
-const deleteAllPosts = (threadId) => {
-    POST.deleteMany({ thread: threadId })
-        .then((result) => {
-            res.status(202).json({
-                success: true,
-                data: result
-            });
-        }).catch((err) => {
-            res.status(500).json({
-                message: "Could not permanently delete posts.",
-                err: err
-            });
-        });
-};
-
 module.exports = {
     getAllPosts,
     createPost,
     archivePost,
-    archiveAllPosts,
-    deletePost,
-    deleteAllPosts
+    deletePost
 };
