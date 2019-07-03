@@ -7,8 +7,8 @@ const { CN_USER } = require('../models/user');
 const { CN_THREAD } = require('../models/thread');
 
 const getAllPosts = (req, res) => {
-    const threadId = req.params.threadId;
-    POST.find({ [CN_THREAD]: threadId, archived: false })
+    const { thread } = req.query;
+    POST.find({ [CN_THREAD]: thread, archived: false })
         .populate(CN_USER)
         .then((posts) => {
             res.status(200).json({

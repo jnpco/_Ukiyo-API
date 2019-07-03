@@ -6,7 +6,7 @@ const { verifyAuthentication, verifyAccessLevelPerms, accessLevelPerms } = requi
 const { ADMIN } = accessLevelPerms;
 
 router.get('/', getAllForums);
-
+// NEEDS AUTHENTICATION
 router.post('/', verifyAuthentication, verifyAccessLevelPerms(ADMIN.name), createForum);
 router.patch('/', verifyAuthentication, verifyAccessLevelPerms(ADMIN.name),archiveForum);
 router.delete('/', verifyAuthentication, verifyAccessLevelPerms(ADMIN.name), deleteForum);

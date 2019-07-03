@@ -5,9 +5,7 @@ const { getAllSubforums, createSubforum, archiveSubforum, deleteSubforum } = req
 const { verifyAuthentication, verifyAccessLevelPerms, accessLevelPerms } = require('../auth');
 const { ADMIN } = accessLevelPerms;
 
-// TODO: Use query instead of params for get
-router.get('/:forumId', getAllSubforums);
-
+router.get('/', getAllSubforums);
 // NEEDS AUTHENTICATION
 router.post('/', verifyAuthentication, verifyAccessLevelPerms(ADMIN.name), createSubforum);
 router.patch('/', verifyAuthentication, verifyAccessLevelPerms(ADMIN.name), archiveSubforum );

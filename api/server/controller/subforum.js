@@ -7,8 +7,8 @@ const { CN_USER } = require('../models/user');
 const { CN_FORUM } = require('../models/forum')
 
 const getAllSubforums = (req, res) => {
-    const forumId = req.params.forumId;
-    SUBFORUM.find({ [CN_FORUM]: forumId, archived: false })
+    const { forum } = req.query;
+    SUBFORUM.find({ [CN_FORUM]: forum, archived: false })
         .populate([CN_USER])
         .then((subforums) => {
             res.status(200).json({

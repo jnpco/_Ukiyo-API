@@ -11,7 +11,7 @@ app.use(express.urlencoded({ extended: false }));
 
 // ROUTES
 const Route = require('./routes');
-app.get('/', (req, res) => res.send("Ukiyo-API"))
+app.get('/', Route.Home)
 app.use('/post', Route.Post);
 app.use('/thread', Route.Thread);
 app.use('/subforum', Route.Subforum);

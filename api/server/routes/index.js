@@ -5,5 +5,6 @@ module.exports = {
     Forum: require('./forum'),
     User: require('./user'),
     Error: require('./error'),
-    Auth: require('./auth')
+    Auth: require('./auth'),
+    Home: require('./home')
 }

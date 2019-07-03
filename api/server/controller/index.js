@@ -4,5 +4,6 @@ module.exports = {
     Subforum: require('./subforum'),
     Forum: require('./forum'),
     User: require('./user'),
-    Auth: require('./auth')
+    Auth: require('./auth'),
+    Home: require('./home')
 };

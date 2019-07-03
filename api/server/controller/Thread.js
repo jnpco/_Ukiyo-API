@@ -7,11 +7,10 @@ const { CN_USER } = require('../models/user');
 const { CN_SUBFORUM } = require('../models/subforum');
 
 const getAllThreads = (req, res) => {
-    const subforumId = req.params.subforumId;
-    THREAD.find({ [CN_SUBFORUM]: subforumId, archived: false })
+    const { subforum } = req.query;
+    THREAD.find({ [CN_SUBFORUM]: subforum, archived: false })
         .populate([CN_USER])
         .then((threads) => {
-            console.log(threads)
             res.status(200).json({
                 success: true,
                 data: threads
