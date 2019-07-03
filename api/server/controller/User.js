@@ -7,7 +7,7 @@ const { USER } = require('../models/user');
 const getUser = (req, res) => {
     const userId = req.params.userId;
 
-    USER.findOne({_id: userId}).select("-password")
+    USER.findOne({_id: userId})
         .then(user => {
             if (user) {
                 res.status(200).json({
@@ -28,7 +28,6 @@ const getUser = (req, res) => {
             });
         });
 };
-
 
 // TODO: Change error, catch shouldnt be specific
 const getAllUsers = (req, res) => {

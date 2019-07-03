@@ -1,75 +1,74 @@
 const mongoose = require('mongoose');
 
 // MODEL IMPORT
-const { THREAD } = require('../models/thread');
+const { SUBFORUM } = require('../models/subforum');
 // COLLECTION NAMES
 const { CN_USER } = require('../models/user');
-const { CN_SUBFORUM } = require('../models/subforum');
-// ARCHIVE ALL POSTS INSIDE THREAD
-const { archiveAllPosts, deleteAllPosts } = require('./post');
+const { CN_FORUM } = require('../models/forum')
+// ARCHIVE ALL POSTS INSIDE SUBFORUM
+const { archiveAllThreads, deleteAllThreads } = require('./thread');
 
-const getAllThreads = (req, res) => {
-    const subforumId = req.params.subforumId;
-    THREAD.find({ [CN_SUBFORUM]: subforumId, archived: false })
+const getAllSubforums = (req, res) => {
+    const forumId = req.params.forumId;
+    SUBFORUM.find({ [CN_FORUM]: forumId, archived: false })
         .populate([CN_USER])
-        .then((threads) => {
-            console.log(threads)
+        .then((subforums) => {
             res.status(200).json({
                 success: true,
-                data: threads
+                data: subforums
             });
         }).catch((err) => {
             res.status(404).json({
-                message: "No threads here.",
+                message: "No subforums here.",
                 err: err
             });
         });
 };
 
-const createThread = (req, res) => {
+const createSubforum = (req, res) => {
     const { userId } = req.authorization;
-    const { subforumId, subject } = req.body;
-    const thread = new THREAD({
+    const { subject, forumId } = req.body;
+    const subforum = new SUBFORUM({
         _id: new mongoose.Types.ObjectId(),
-        [CN_SUBFORUM]: subforumId,
         [CN_USER]: userId,
+        [CN_FORUM]: forumId,
         subject
     });
 
-    thread.save()
-        .then((thread) => {
+    subforum.save()
+        .then((subforum) => {
             res.status(201).json({
                 success: true,
-                data: thread
+                data: subforum
             });
         }).catch((err) => {
             res.status(500).json({
-                message: "Could not create thread",
+                message: "Could not create subforum.",
                 err: err
             });
         });
 };
 
-const archiveThread = (req, res) => {
+const archiveSubforum = (req, res) => {
     const { userId } = req.authorization;
-    const { threadId } = req.body;
-    THREAD.updateOne({ _id: threadId, [CN_USER]: userId }, { $set: { "archived": true, "dateDeleted": Date.now() } })
+    const { subforumId } = req.body;
+    SUBFORUM.updateOne({ _id: subforumId, [CN_USER]: userId }, { $set: { "archived": true, "dateDeleted": Date.now() } })
         .then((result) => {
             res.status(202).json({
                 success: true,
                 data: result
             });
-            archiveAllPosts(threadId);
+            archiveAllThreads(subforumId);
         }).catch((err) => {
             res.status(500).json({
-                message: "Could not delete thread.",
+                message: "Could not delete subforum.",
                 err: err
             });
         });
 };
 
-const archiveAllThreads = (subforumId) => {
-    THREAD.updateMany({ [CN_SUBFORUM]: subforumId }, { $set: { archived: true, dateDeleted: Date.now() } })
+const archiveAllSubforums = (forumId) => {
+    SUBFORUM.updateMany({ [CN_FORUM]: forumId }, { $set: { archived: true, dateDeleted: Date.now() } })
         .then((result) => {
             res.status(202).json({
                 success: true,
@@ -77,32 +76,32 @@ const archiveAllThreads = (subforumId) => {
             });
         }).catch((err) => {
             res.status(500).json({
-                message: "Could not delete threads.",
+                message: "Could not delete subforums.",
                 err: err
             });
         });
 };
 
-const deleteThread = (req, res) => {
+const deleteSubforum = (req, res) => {
     const { userId } = req.authorization;
-    const { threadId } = req.body;
-    THREAD.deleteOne({ _id: threadId, [CN_USER]: userId })
+    const { subforumId } = req.body;
+    SUBFORUM.deleteOne({ _id: subforumId, [CN_USER]: userId })
         .then((result) => {
             res.status(202).json({
                 success: true,
                 data: result
             });
-            deleteAllPosts(threadId);
+            deleteAllThreads(threadId);
         }).catch((err) => {
             res.status(500).json({
-                message: "Thread could not be permanently deleted.",
+                message: "Subforum could not be permanently deleted.",
                 err: err
             });
         });
 };
 
-const deleteAllThreads = (subforumId) => {
-    THREAD.deleteMany({ [CN_SUBFORUM]: subforumId })
+const deleteAllSubforums = (forumId) => {
+    SUBFORUM.deleteMany({ [CN_FORUM]: forumId })
         .then((result) => {
             res.status(202).json({
                 success: true,
@@ -110,17 +109,17 @@ const deleteAllThreads = (subforumId) => {
             });
         }).catch((err) => {
             res.status(500).json({
-                message: "Could not permanently delete threads.",
+                message: "Could not permanently delete subforums.",
                 err: err
             });
         });
 };
 
 module.exports = {
-    getAllThreads,
-    createThread,
-    archiveThread,
-    archiveAllThreads,
-    deleteThread,
-    deleteAllThreads
+    getAllSubforums,
+    createSubforum,
+    archiveSubforum,
+    archiveAllSubforums,
+    deleteSubforum,
+    deleteAllSubforums
 };

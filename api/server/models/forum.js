@@ -3,19 +3,13 @@ mongoose.pluralize(null);
 
 // COLLECTION NAMES
 const { CN_USER } = require('./user');
-const { CN_SUBFORUM } = require('./subforum');
 
-const CN_THREAD = "thread";
+const CN_FORUM = "forum";
 
-const threadSchema = mongoose.Schema({
+const forumSchema = mongoose.Schema({
     _id: {
         type: mongoose.Schema.Types.ObjectId,
         required: true
-    },
-    [CN_SUBFORUM]: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        ref: CN_SUBFORUM
     },
     [CN_USER]: {
         type: mongoose.Schema.Types.ObjectId,
@@ -44,6 +38,6 @@ const threadSchema = mongoose.Schema({
 });
 
 module.exports = {
-    THREAD: mongoose.model(CN_THREAD, threadSchema),
-    CN_THREAD
+    FORUM: mongoose.model(CN_FORUM, forumSchema),
+    CN_FORUM
 };

@@ -6,30 +6,6 @@ const { POST } = require('../models/post');
 const { CN_USER } = require('../models/user');
 const { CN_THREAD } = require('../models/thread');
 
-// TODO: Add permission requirements for ops
-
-const getPost = (req, res) => {
-    const postId = req.params.postId;
-    POST.findById(postId)
-        .then((post) => {
-            if (post.archived) {
-                res.status(404).json({
-                    message: "Post not found.",
-                });
-            } else {
-                res.status(200).json({
-                    success: true,
-                    data: post
-                });
-            }
-        }).catch((err) => {
-            res.status(404).json({
-                message: "Post not found.",
-                err: err
-            });
-        });
-};
-
 const getAllPosts = (req, res) => {
     const threadId = req.params.threadId;
     POST.find({ [CN_THREAD]: threadId, archived: false })
@@ -129,14 +105,13 @@ const deleteAllPosts = (threadId) => {
             });
         }).catch((err) => {
             res.status(500).json({
-                message: "Could not delete posts.",
+                message: "Could not permanently delete posts.",
                 err: err
             });
         });
 };
 
 module.exports = {
-    getPost,
     getAllPosts,
     createPost,
     archivePost,
