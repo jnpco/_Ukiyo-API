@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+
 mongoose.pluralize(null);
 
 // COLLECTION NAMES
@@ -38,8 +39,11 @@ const subforumSchema = mongoose.Schema({
         default: false
     },
     dateDeleted: {
-        type: Date,
+        type: Date
     }
 });
 
-module.exports = { SUBFORUM: mongoose.model(CN_SUBFORUM, subforumSchema), CN_SUBFORUM };
+module.exports = {
+    SUBFORUM: mongoose.model(CN_SUBFORUM, subforumSchema),
+    CN_SUBFORUM
+};

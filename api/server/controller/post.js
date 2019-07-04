@@ -11,11 +11,18 @@ const getAllPosts = (req, res) => {
 
     POST.find({ [CN_THREAD]: thread, archived: false })
         .populate(CN_USER)
-        .then((posts) => {
-            res.status(200).json({ success: true, message: `${posts.length ? posts.length + ' posts fetched from database.' 
-                                                                            : 'No posts available.' }`, data: posts });
-        }).catch((err) => {
-            res.status(500).json({ message: 'Something went wrong. Cannot fetch posts. Try again later.', err: err });
+        .then(posts => {
+            res.status(200).json({
+                success: true,
+                message: `${posts.length ? `${posts.length} posts fetched from database.` : 'No posts available.'}`,
+                data: posts
+            });
+        })
+        .catch(err => {
+            res.status(500).json({
+                message: 'Something went wrong. Cannot fetch posts. Try again later.',
+                err
+            });
         });
 };
 
@@ -23,12 +30,25 @@ const createPost = (req, res) => {
     const { userId } = req.authorization;
     const { threadId, content } = req.body;
 
-    const post = new POST({ _id: new mongoose.Types.ObjectId(), [CN_THREAD]: threadId, [CN_USER]: userId, content });
+    const post = new POST({
+        _id: new mongoose.Types.ObjectId(),
+        [CN_THREAD]: threadId,
+        [CN_USER]: userId,
+        content
+    });
     post.save()
-        .then((post) => {
-            res.status(201).json({ success: true, message: 'Successfully created post.', data: post });
-        }).catch((err) => {
-            res.status(500).json({ message: "Something went wrong. Cannot create post. Try again later.", err: err });
+        .then(postData => {
+            res.status(201).json({
+                success: true,
+                message: 'Successfully created post.',
+                data: postData
+            });
+        })
+        .catch(err => {
+            res.status(500).json({
+                message: 'Something went wrong. Cannot create post. Try again later.',
+                err
+            });
         });
 };
 
@@ -37,10 +57,18 @@ const archivePost = (req, res) => {
     const { postId } = req.body;
 
     POST.updateOne({ _id: postId, [CN_USER]: userId }, { $set: { archived: true, dateDeleted: Date.now() } })
-        .then((result) => {
-            res.status(202).json({ success: true, message: `Successfully deleted post #${postId}`, data: result });
-        }).catch((err) => {
-            res.status(500).json({ message: 'Something went wrong. Cannot delete post. Try again later.', err: err });
+        .then(result => {
+            res.status(202).json({
+                success: true,
+                message: `Successfully deleted post #${postId}`,
+                data: result
+            });
+        })
+        .catch(err => {
+            res.status(500).json({
+                message: 'Something went wrong. Cannot delete post. Try again later.',
+                err
+            });
         });
 };
 
@@ -49,10 +77,18 @@ const deletePost = (req, res) => {
     const { postId } = req.body;
 
     POST.deleteOne({ _id: postId, [CN_USER]: userId })
-        .then((result) => {
-            res.status(202).json({ success: true, message: `Successfully deleted post #${postId}`, data: result });
-        }).catch((err) => {
-            res.status(500).json({ message: 'Something went wrong. Cannot delete post. Try again later.', err: err });
+        .then(result => {
+            res.status(202).json({
+                success: true,
+                message: `Successfully deleted post #${postId}`,
+                data: result
+            });
+        })
+        .catch(err => {
+            res.status(500).json({
+                message: 'Something went wrong. Cannot delete post. Try again later.',
+                err
+            });
         });
 };
 

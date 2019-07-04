@@ -13,6 +13,6 @@ const getHome = (req, res) => {
             </body>
     </html>
     `);
-}
+};
 
 module.exports = { getHome };

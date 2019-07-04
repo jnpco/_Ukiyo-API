@@ -5,66 +5,102 @@ const bcrypt = require('bcrypt');
 const { USER } = require('../models/user');
 
 const getAllUsers = (req, res) => {
-    USER.find({}).select('-password')
-        .then((users) => {
-            res.status(200).json({ success: true, message: `${users.length ? users.length + ' users fetched from database.' 
-                                                                                : 'No users available.' }`, data: users });
-        }).catch((err) => {
-            res.status(500).json({ message: 'Something went wrong. Cannot fetch users. Try again later.', err: err });
+    USER.find({})
+        .select('-password')
+        .then(users => {
+            res.status(200).json({
+                success: true,
+                message: `${users.length ? `${users.length} users fetched from database.` : 'No users available.'}`,
+                data: users
+            });
+        })
+        .catch(err => {
+            res.status(500).json({
+                message: 'Something went wrong. Cannot fetch users. Try again later.',
+                err
+            });
         });
 };
 
 const getUser = (req, res) => {
-    const userId = req.params.userId;
+    const { userId } = req.params;
 
-    USER.findOne({_id: userId})
+    USER.findOne({ _id: userId })
         .then(user => {
             if (user) {
-                res.status(200).json({ success: true, message: `User #${userId} cannot be found.`, data: user })
+                res.status(200).json({
+                    success: true,
+                    message: `User #${userId} cannot be found.`,
+                    data: user
+                });
             } else {
-                res.status(404).json({ message: `User #${userId} cannot be found.`, data: user, err: 'User doesn\'t exist' })
+                res.status(404).json({
+                    message: `User #${userId} cannot be found.`,
+                    data: user,
+                    err: "User doesn't exist"
+                });
             }
         })
         .catch(err => {
-            res.status(500).json({ message: 'Something went wrong. Cannot fetch user. Try again later.', err: err });
+            res.status(500).json({
+                message: 'Something went wrong. Cannot fetch user. Try again later.',
+                err
+            });
         });
 };
 
 const createUser = (req, res) => {
     const { username, password } = req.body;
 
-    if(password.length < 10){
+    if (password.length < 10) {
         res.status(400).json({ err: 'Password must be 10 characters or more.' });
-    }
-    else if(password.length > 100){
+    } else if (password.length > 100) {
         res.status(400).json({ err: 'Password must not be longer than 100 characters.' });
-    }
-    else{
+    } else {
         bcrypt.hash(password, 10, (err, hashed) => {
-            if(err){
-                res.status(500).json({ message: 'Something went wrong. Cannot register user. Try again later.', err: err })
+            if (err) {
+                res.status(500).json({
+                    message: 'Something went wrong. Cannot register user. Try again later.',
+                    err
+                });
             } else {
-                const user = new USER({ _id: new mongoose.Types.ObjectId(), username, password: hashed });
+                const user = new USER({
+                    _id: new mongoose.Types.ObjectId(),
+                    username,
+                    password: hashed
+                });
                 user.save()
-                    .then((newUser) => {
-                        const {password, ...user} = newUser.toObject();
-                        res.status(201).json({ success: true, data: user });
-                    }).catch((err) => {
-                        res.status(500).json({ message: 'Something went wrong. Cannot register user. Try again later.', err: err });
+                    .then(userWithPassword => {
+                        const { password, ...userData } = userWithPassword.toObject();
+                        res.status(201).json({ success: true, data: userData });
+                    })
+                    .catch(err => {
+                        res.status(500).json({
+                            message: 'Something went wrong. Cannot register user. Try again later.',
+                            err
+                        });
                     });
             }
-        })
-    };
-}
+        });
+    }
+};
 
 const deleteUser = (req, res) => {
-    const userId = req.params.userId;
-    POST_MODEL.deleteOne({ _id: userId })
-        .then((result) => {
-            res.status(202).json({ success: true, message: `Successfully deleted User #${userId}`, data: result });
-        }).catch((err) => {
-            res.status(500).json({ message: 'Something went wrong. Cannot delete user. Try again later.', err: err });
+    const { userId } = req.params;
+    USER.deleteOne({ _id: userId })
+        .then(result => {
+            res.status(202).json({
+                success: true,
+                message: `Successfully deleted User #${userId}`,
+                data: result
+            });
+        })
+        .catch(err => {
+            res.status(500).json({
+                message: 'Something went wrong. Cannot delete user. Try again later.',
+                err
+            });
         });
-}
+};
 
 module.exports = { getUser, getAllUsers, createUser, deleteUser };

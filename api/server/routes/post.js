@@ -1,4 +1,5 @@
 const express = require('express');
+
 const router = express.Router();
 
 const { getAllPosts, createPost, archivePost, deletePost } = require('../controller').Post;

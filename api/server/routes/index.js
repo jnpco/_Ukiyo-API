@@ -1,10 +1,10 @@
-module.exports = {
-    Home: require('./home'),
-    Forum: require('./forum'),
-    Subforum: require('./subforum'),
-    Thread: require('./thread'),
-    Post: require('./post'),
-    User: require('./user'),
-    Auth: require('./auth'),
-    Error: require('./error')
-};
+const Home = require('./home');
+const Forum = require('./forum');
+const Subforum = require('./subforum');
+const Thread = require('./thread');
+const Post = require('./post');
+const User = require('./user');
+const Auth = require('./auth');
+const Error = require('./error');
+
+module.exports = { Home, Forum, Subforum, Thread, Post, User, Auth, Error };

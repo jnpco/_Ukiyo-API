@@ -1,6 +1,6 @@
 // TODO: Move to Database
 module.exports = {
-    ADMIN: { name: 'ADMIN', value: 999999 }, 
+    ADMIN: { name: 'ADMIN', value: 999999 },
     MODERATOR: { name: 'MODERATOR', value: 9999 },
     MEMBER: { name: 'MEMBER', value: 0 }
 };

@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+
 mongoose.pluralize(null);
 
 // COLLECTION NAMES
@@ -38,7 +39,7 @@ const threadSchema = mongoose.Schema({
         default: false
     },
     dateDeleted: {
-        type: Date,
+        type: Date
     }
 });
 

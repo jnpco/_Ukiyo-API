@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+
 mongoose.pluralize(null);
 
 // Pre-save unique validation
@@ -36,7 +37,7 @@ const userSchema = mongoose.Schema({
     role: {
         type: String,
         required: true,
-        default: accessLevelPerms['MEMBER'].name
+        default: accessLevelPerms.MEMBER.name
     },
     avatar: {
         // Avatar URL

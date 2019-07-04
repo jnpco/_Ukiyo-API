@@ -1,8 +1,10 @@
 const express = require('express');
+
 const router = express.Router();
 
 const { getAllForums, createForum, archiveForum, deleteForum } = require('../controller').Forum;
 const { verifyAuthentication, verifyAccessLevelPerms, accessLevelPerms } = require('../auth');
+
 const { ADMIN } = accessLevelPerms;
 
 // PUBLIC ACCESS ROUTES

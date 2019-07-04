@@ -1,4 +1,5 @@
 const express = require('express');
+
 const app = express();
 const morgan = require('morgan');
 const cors = require('cors');
@@ -11,7 +12,8 @@ app.use(express.urlencoded({ extended: false }));
 
 // ROUTES
 const { Home, Post, Thread, Subforum, Forum, User, Auth, Error } = require('./routes');
-app.get('/', Home)
+
+app.get('/', Home);
 app.use('/post', Post);
 app.use('/thread', Thread);
 app.use('/subforum', Subforum);

@@ -1,4 +1,5 @@
 const express = require('express');
+
 const router = express.Router();
 
 const { getAllThreads, createThread, archiveThread, deleteThread } = require('../controller').Thread;
