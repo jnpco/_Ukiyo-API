@@ -2,10 +2,9 @@ const mongoose = require('mongoose');
 mongoose.pluralize(null);
 
 // COLLECTION NAMES
+const CN_POST = 'post';
 const { CN_USER } = require('./user');
 const { CN_THREAD } = require('./thread');
-
-const CN_POST = "post";
 
 const postSchema = mongoose.Schema({
     _id: {
@@ -25,8 +24,8 @@ const postSchema = mongoose.Schema({
     content: {
         type: String,
         required: true,
-        minlength: [5, "Post must be 5 characters or more."],
-        maxlength: [1001, "Post must be less than 1000 characters."]
+        minlength: [5, 'Content should be at least 5 characters in length.'],
+        maxlength: [1000, 'Content cannot be longer than 1000 characters.']
     },
     dateCreated: {
         type: Date,
@@ -43,7 +42,4 @@ const postSchema = mongoose.Schema({
     }
 });
 
-module.exports = {
-    POST: mongoose.model(CN_POST, postSchema),
-    CN_POST
-}
+module.exports = { POST: mongoose.model(CN_POST, postSchema), CN_POST };

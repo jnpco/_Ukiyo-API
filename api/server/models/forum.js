@@ -2,9 +2,8 @@ const mongoose = require('mongoose');
 mongoose.pluralize(null);
 
 // COLLECTION NAMES
+const CN_FORUM = 'forum';
 const { CN_USER } = require('./user');
-
-const CN_FORUM = "forum";
 
 const forumSchema = mongoose.Schema({
     _id: {
@@ -24,8 +23,8 @@ const forumSchema = mongoose.Schema({
     subject: {
         type: String,
         required: true,
-        minlength: [5, "Subject must be 5 characters or more."],
-        maxlength: [101, "Subject must be less than 100 characters."]
+        minlength: [5, 'Subject should be at least 5 characters in length.'],
+        maxlength: [100, 'Subject cannot be longer than 100 characters.']
     },
     archived: {
         type: Boolean,
@@ -37,7 +36,4 @@ const forumSchema = mongoose.Schema({
     }
 });
 
-module.exports = {
-    FORUM: mongoose.model(CN_FORUM, forumSchema),
-    CN_FORUM
-};
+module.exports = { FORUM: mongoose.model(CN_FORUM, forumSchema), CN_FORUM };

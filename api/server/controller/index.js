@@ -1,9 +1,9 @@
 module.exports = {
-    Post: require('./post'),
-    Thread: require('./thread'),
-    Subforum: require('./subforum'),
+    Home: require('./home'),
     Forum: require('./forum'),
+    Subforum: require('./subforum'),
+    Thread: require('./thread'),
+    Post: require('./post'),
     User: require('./user'),
-    Auth: require('./auth'),
-    Home: require('./home')
+    Auth: require('./auth')
 };

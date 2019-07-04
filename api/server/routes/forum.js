@@ -5,10 +5,11 @@ const { getAllForums, createForum, archiveForum, deleteForum } = require('../con
 const { verifyAuthentication, verifyAccessLevelPerms, accessLevelPerms } = require('../auth');
 const { ADMIN } = accessLevelPerms;
 
+// PUBLIC ACCESS ROUTES
 router.get('/', getAllForums);
-// NEEDS AUTHENTICATION
+// REQUIRES AN ACCOUNT AND ADMIN LEVEL ACCESS
 router.post('/', verifyAuthentication, verifyAccessLevelPerms(ADMIN.name), createForum);
-router.patch('/', verifyAuthentication, verifyAccessLevelPerms(ADMIN.name),archiveForum);
+router.patch('/', verifyAuthentication, verifyAccessLevelPerms(ADMIN.name), archiveForum);
 router.delete('/', verifyAuthentication, verifyAccessLevelPerms(ADMIN.name), deleteForum);
 
 module.exports = router;

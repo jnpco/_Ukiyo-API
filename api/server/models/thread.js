@@ -2,10 +2,9 @@ const mongoose = require('mongoose');
 mongoose.pluralize(null);
 
 // COLLECTION NAMES
+const CN_THREAD = 'thread';
 const { CN_USER } = require('./user');
 const { CN_SUBFORUM } = require('./subforum');
-
-const CN_THREAD = "thread";
 
 const threadSchema = mongoose.Schema({
     _id: {
@@ -30,8 +29,8 @@ const threadSchema = mongoose.Schema({
     subject: {
         type: String,
         required: true,
-        minlength: [5, "Subject must be 5 characters or more."],
-        maxlength: [101, "Subject must be less than 100 characters."]
+        minlength: [5, 'Subject should be at least 5 characters in length.'],
+        maxlength: [100, 'Subject cannot be longer than 100 characters.']
     },
     archived: {
         type: Boolean,
@@ -43,7 +42,4 @@ const threadSchema = mongoose.Schema({
     }
 });
 
-module.exports = {
-    THREAD: mongoose.model(CN_THREAD, threadSchema),
-    CN_THREAD
-};
+module.exports = { THREAD: mongoose.model(CN_THREAD, threadSchema), CN_THREAD };

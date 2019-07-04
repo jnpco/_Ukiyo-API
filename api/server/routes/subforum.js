@@ -5,8 +5,9 @@ const { getAllSubforums, createSubforum, archiveSubforum, deleteSubforum } = req
 const { verifyAuthentication, verifyAccessLevelPerms, accessLevelPerms } = require('../auth');
 const { ADMIN } = accessLevelPerms;
 
+// PUBLIC ACCESS ROUTES
 router.get('/', getAllSubforums);
-// NEEDS AUTHENTICATION
+// REQUIRES AN ACCOUNT AND ADMIN LEVEL ACCESS
 router.post('/', verifyAuthentication, verifyAccessLevelPerms(ADMIN.name), createSubforum);
 router.patch('/', verifyAuthentication, verifyAccessLevelPerms(ADMIN.name), archiveSubforum );
 router.delete('/', verifyAuthentication, verifyAccessLevelPerms(ADMIN.name), deleteSubforum );

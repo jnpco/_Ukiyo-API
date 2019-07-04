@@ -1,10 +1,10 @@
 module.exports = {
-    Post: require('./post'),
-    Thread: require('./thread'),
-    Subforum: require('./subforum'),
+    Home: require('./home'),
     Forum: require('./forum'),
+    Subforum: require('./subforum'),
+    Thread: require('./thread'),
+    Post: require('./post'),
     User: require('./user'),
-    Error: require('./error'),
     Auth: require('./auth'),
-    Home: require('./home')
-}
+    Error: require('./error')
+};

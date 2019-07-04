@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-router.use((req, res) => { res.status(400).json({ error: "ERROR" }); });
+// PUBLIC ACCESS ROUTES
+router.use((req, res) => { res.status(404).json({ err: 'Not found' }); });
 
 module.exports = router;

@@ -10,14 +10,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // ROUTES
-const Route = require('./routes');
-app.get('/', Route.Home)
-app.use('/post', Route.Post);
-app.use('/thread', Route.Thread);
-app.use('/subforum', Route.Subforum);
-app.use('/forum', Route.Forum);
-app.use('/user', Route.User);
-app.use('/auth', Route.Auth);
-app.use(Route.Error);
+const { Home, Post, Thread, Subforum, Forum, User, Auth, Error } = require('./routes');
+app.get('/', Home)
+app.use('/post', Post);
+app.use('/thread', Thread);
+app.use('/subforum', Subforum);
+app.use('/forum', Forum);
+app.use('/user', User);
+app.use('/auth', Auth);
+app.use(Error);
 
 module.exports = app;
