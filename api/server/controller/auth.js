@@ -11,35 +11,39 @@ const createAuthToken = (req, res) => {
         .select('+password')
         .then(user => {
             if (user) {
-                bcrypt.compare(password, user.password, err => {
-                    if (err) {
-                        res.status(401).json({
-                            message: 'Authentication failed.',
-                            err: 'Check your username or password.'
+                bcrypt.compare(password, user.password)
+                    .then(match => {
+                        if(match) {
+                            const token = jwt.sign({ userId: user._id, role: user.role }, process.env.JWT_KEY, {
+                                expiresIn: process.env.JWT_EXPIRATION
+                            });
+                            res.status(200).json({
+                                success: true,
+                                message: 'Auth token created successfully.',
+                                token
+                            });
+                        }
+                        else {
+                            res.status(401).json({
+                                message: 'Authentication failed.',
+                                err: 'Check your username or password.'
+                            });
+                        }
+                    })
+                    .catch(err => {
+                        res.status(500).json({
+                            message: 'Something went wrong. Cannot create token. Try again later.',
+                            err
                         });
-                    } else {
-                        const token = jwt.sign({ userId: user._id, role: user.role }, process.env.JWT_KEY, {
-                            expiresIn: process.env.JWT_EXPIRATION
-                        });
-                        res.status(200).json({
-                            success: true,
-                            message: 'Auth token created successfully.',
-                            token
-                        });
-                    }
-                });
-            } else {
+                    });
+            }
+            else {
                 res.status(401).json({
                     message: 'Authentication failed.',
                     err: 'Check your username or password.'
                 });
             }
-        })
-        .catch(err => {
-            res.status(500).json({
-                message: 'Something went wrong. Cannot create token. Try again later.'
-            });
-        });
-};
+    });
+}
 
 module.exports = { createAuthToken };
