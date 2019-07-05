@@ -45,7 +45,7 @@ const userSchema = mongoose.Schema({
     },
     dateJoined: {
         type: Date,
-        default: Date.now()
+        default: Date.now
     },
     bio: {
         type: String,

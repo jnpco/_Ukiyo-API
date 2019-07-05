@@ -19,7 +19,7 @@ const forumSchema = mongoose.Schema({
     dateCreated: {
         type: Date,
         required: true,
-        default: Date.now()
+        default: Date.now
     },
     subject: {
         type: String,
