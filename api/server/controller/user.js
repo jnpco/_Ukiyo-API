@@ -11,7 +11,7 @@ const getAllUsers = (req, res) => {
             res.status(200).json({
                 success: true,
                 message: `${users.length ? `${users.length} users fetched from database.` : 'No users available.'}`,
-                data: users
+                users
             });
         })
         .catch(err => {
@@ -31,12 +31,11 @@ const getUser = (req, res) => {
                 res.status(200).json({
                     success: true,
                     message: `User #${userId} cannot be found.`,
-                    data: user
+                    user
                 });
             } else {
                 res.status(404).json({
                     message: `User #${userId} cannot be found.`,
-                    data: user,
                     err: "User doesn't exist"
                 });
             }
@@ -53,9 +52,15 @@ const createUser = (req, res) => {
     const { username, password } = req.body;
 
     if (password.length < 10) {
-        res.status(400).json({ err: 'Password must be 10 characters or more.' });
+        res.status(400).json({ 
+            message: 'Password must be 10 characters or more.', 
+            err: 'Password must be 10 characters or more.' 
+        });
     } else if (password.length > 100) {
-        res.status(400).json({ err: 'Password must not be longer than 100 characters.' });
+        res.status(400).json({ 
+            message: 'Password must not be longer than 100 characters.',
+            err: 'Password must not be longer than 100 characters.' 
+        });
     } else {
         bcrypt.hash(password, 10, (err, hashed) => {
             if (err) {
@@ -72,7 +77,11 @@ const createUser = (req, res) => {
                 user.save()
                     .then(userWithPassword => {
                         const { password, ...userData } = userWithPassword.toObject();
-                        res.status(201).json({ success: true, data: userData });
+                        res.status(201).json({ 
+                            success: true,
+                            message: `Successfully registered ${userData.username}`,
+                            userData 
+                        });
                     })
                     .catch(err => {
                         res.status(500).json({
@@ -92,7 +101,7 @@ const deleteUser = (req, res) => {
             res.status(202).json({
                 success: true,
                 message: `Successfully deleted User #${userId}`,
-                data: result
+                result
             });
         })
         .catch(err => {

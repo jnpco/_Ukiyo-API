@@ -17,7 +17,7 @@ const getAllThreads = (req, res) => {
                 message: `${
                     threads.length ? `${threads.length} threads fetched from database.` : 'No threads available.'
                 }`,
-                data: threads
+                threads
             });
         })
         .catch(err => {
@@ -44,7 +44,7 @@ const createThread = (req, res) => {
             res.status(201).json({
                 success: true,
                 message: 'Successfully created thread.',
-                data: threadData
+                threadData
             });
         })
         .catch(err => {
@@ -63,7 +63,7 @@ const archiveThread = (req, res) => {
             res.status(202).json({
                 success: true,
                 message: `Successfully deleted thread #${threadId}`,
-                data: result
+                result
             });
         })
         .catch(err => {
@@ -82,7 +82,7 @@ const deleteThread = (req, res) => {
             res.status(202).json({
                 success: true,
                 message: `Successfully deleted thread #${threadId}`,
-                data: result
+                result
             });
         })
         .catch(err => {

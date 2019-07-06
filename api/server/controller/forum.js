@@ -12,7 +12,7 @@ const getAllForums = (req, res) => {
             res.status(200).json({
                 success: true,
                 message: `${forums.length ? `${forums.length} forums fetched from database.` : 'No forums available.'}`,
-                data: forums
+                forums
             });
         })
         .catch(err => {
@@ -38,7 +38,7 @@ const createForum = (req, res) => {
             res.status(201).json({
                 success: true,
                 message: 'Successfully created forum.',
-                data: forumData
+                forumData
             });
         })
         .catch(err => {
@@ -58,7 +58,7 @@ const archiveForum = (req, res) => {
             res.status(202).json({
                 success: true,
                 message: `Successfully deleted forum #${forumId}`,
-                data: result
+                result
             });
         })
         .catch(err => {
@@ -78,7 +78,7 @@ const deleteForum = (req, res) => {
             res.status(202).json({
                 success: true,
                 message: `Successfully deleted forum #${forumId}`,
-                data: result
+                result
             });
         })
         .catch(err => {

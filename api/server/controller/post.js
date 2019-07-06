@@ -15,7 +15,7 @@ const getAllPosts = (req, res) => {
             res.status(200).json({
                 success: true,
                 message: `${posts.length ? `${posts.length} posts fetched from database.` : 'No posts available.'}`,
-                data: posts
+                posts
             });
         })
         .catch(err => {
@@ -41,7 +41,7 @@ const createPost = (req, res) => {
             res.status(201).json({
                 success: true,
                 message: 'Successfully created post.',
-                data: postData
+                postData
             });
         })
         .catch(err => {
@@ -61,7 +61,7 @@ const archivePost = (req, res) => {
             res.status(202).json({
                 success: true,
                 message: `Successfully deleted post #${postId}`,
-                data: result
+                result
             });
         })
         .catch(err => {
@@ -81,7 +81,7 @@ const deletePost = (req, res) => {
             res.status(202).json({
                 success: true,
                 message: `Successfully deleted post #${postId}`,
-                data: result
+                result
             });
         })
         .catch(err => {

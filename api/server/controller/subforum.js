@@ -19,7 +19,7 @@ const getAllSubforums = (req, res) => {
                         ? `${subforums.length} subforums fetched from database.`
                         : 'No subforums available.'
                 }`,
-                data: subforums
+                subforums
             });
         })
         .catch(err => {
@@ -46,7 +46,7 @@ const createSubforum = (req, res) => {
             res.status(201).json({
                 success: true,
                 message: 'Successfully created subforum.',
-                data: subforumData
+                subforumData
             });
         })
         .catch(err => {
@@ -66,7 +66,7 @@ const archiveSubforum = (req, res) => {
             res.status(202).json({
                 success: true,
                 message: `Successfully deleted subforum #${subforumId}`,
-                data: result
+                result
             });
         })
         .catch(err => {
@@ -86,7 +86,7 @@ const deleteSubforum = (req, res) => {
             res.status(202).json({
                 success: true,
                 message: `Successfully deleted subforum #${subforumId}`,
-                data: result
+                result
             });
         })
         .catch(err => {
