@@ -6,7 +6,6 @@ const { USER } = require('../models/user');
 
 const getAllUsers = (req, res) => {
     USER.find({})
-        .select('-password')
         .then(users => {
             res.status(200).json({
                 success: true,

@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 
 mongoose.pluralize(null);
-
 // Pre-save unique validation
 const mongooseUniqueValidator = require('mongoose-unique-validator');
 
@@ -41,7 +40,9 @@ const userSchema = mongoose.Schema({
     },
     avatar: {
         // Avatar URL
-        type: String
+        type: String,
+        required: true,
+        default: process.env.DEFAULT_PROFILE_IMAGE
     },
     dateJoined: {
         type: Date,
