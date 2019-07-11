@@ -17,10 +17,12 @@ const createAuthToken = (req, res) => {
                             const token = jwt.sign({ userId: user._id, role: user.role }, process.env.JWT_KEY, {
                                 expiresIn: process.env.JWT_EXPIRATION
                             });
+                            const { password, ...userData } = user.toObject();
                             res.status(200).json({
                                 success: true,
                                 message: 'Auth token created successfully.',
-                                token
+                                token,
+                                userData
                             });
                         }
                         else {

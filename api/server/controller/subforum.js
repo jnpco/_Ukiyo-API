@@ -19,7 +19,8 @@ const getAllSubforums = (req, res) => {
                         ? `${subforums.length} subforums fetched from database.`
                         : 'No subforums available.'
                 }`,
-                subforums
+                subforums,
+                forum
             });
         })
         .catch(err => {

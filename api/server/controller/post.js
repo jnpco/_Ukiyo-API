@@ -15,7 +15,8 @@ const getAllPosts = (req, res) => {
             res.status(200).json({
                 success: true,
                 message: `${posts.length ? `${posts.length} posts fetched from database.` : 'No posts available.'}`,
-                posts
+                posts,
+                thread
             });
         })
         .catch(err => {

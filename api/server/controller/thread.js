@@ -17,7 +17,8 @@ const getAllThreads = (req, res) => {
                 message: `${
                     threads.length ? `${threads.length} threads fetched from database.` : 'No threads available.'
                 }`,
-                threads
+                threads,
+                subforum
             });
         })
         .catch(err => {
