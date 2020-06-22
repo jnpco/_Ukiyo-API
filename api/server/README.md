@@ -1,4 +1,4 @@
-## Ukiyo Forum API
+## Forum API
 
 ### Routes
 
